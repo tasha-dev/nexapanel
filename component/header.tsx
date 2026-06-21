@@ -25,7 +25,10 @@ export default function Header() {
             <div className="flex items-center justify-center gap-2">
                <ThemeToggler variant="outline" />
                <Button variant={"outline"} asChild className="lg:flex hidden">
-                  <Link href="https://github.com/MohamadMahdi-Tasha">
+                  <Link
+                     href="https://github.com/MohamadMahdi-Tasha"
+                     target="_blank"
+                  >
                      <Github />
                      Github
                   </Link>

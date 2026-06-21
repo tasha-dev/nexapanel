@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 
 // Creating and exporting props type of components
-export interface RootLayoutProps {
+export interface ChildrenOnlyProps {
    children: ReactNode;
 }
 

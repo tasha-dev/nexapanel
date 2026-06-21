@@ -25,7 +25,7 @@ export default function NotFoundPage() {
                </p>
                <div className="flex justify-center flex-wrap gap-2 items-center">
                   <Button asChild variant={"outline"}>
-                     <Link href="/products" className="no-underline">
+                     <Link href="/" className="no-underline">
                         <Home />
                         Head Home
                      </Link>

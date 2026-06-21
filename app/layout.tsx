@@ -1,6 +1,6 @@
 // Codes by mahdi tasha
 // Importing part
-import { RootLayoutProps } from "@/type/component";
+import { ChildrenOnlyProps } from "@/type/component";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/app/style.css";
@@ -8,6 +8,7 @@ import { cn } from "@/lib/util";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/component/ui/sonner";
 import { TooltipProvider } from "@/component/ui/tooltip";
+import QueryClientProviderWrapper from "@/component/layout/queryClientProviderWrapper";
 
 // Defining metadata
 export const metadata: Metadata = {
@@ -62,21 +63,23 @@ const InterFont = Inter({
 });
 
 // Creating and exporting RootLayout component as default
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: ChildrenOnlyProps) {
    // Returning JSX
    return (
-      <ThemeProvider>
-         <html suppressHydrationWarning lang="en">
-            <body
-               className={cn(
-                  "overflow-x-hidden overflow-y-auto bg-background text-foreground",
-                  InterFont.className,
-               )}
-            >
-               <Toaster />
-               <TooltipProvider>{children}</TooltipProvider>
-            </body>
-         </html>
-      </ThemeProvider>
+      <QueryClientProviderWrapper>
+         <ThemeProvider>
+            <html suppressHydrationWarning lang="en">
+               <body
+                  className={cn(
+                     "overflow-x-hidden overflow-y-auto bg-background text-foreground",
+                     InterFont.className,
+                  )}
+               >
+                  <Toaster />
+                  <TooltipProvider>{children}</TooltipProvider>
+               </body>
+            </html>
+         </ThemeProvider>
+      </QueryClientProviderWrapper>
    );
 }
