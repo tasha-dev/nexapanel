@@ -7,6 +7,7 @@ import "@/app/style.css";
 import { cn } from "@/lib/util";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/component/ui/sonner";
+import { TooltipProvider } from "@/component/ui/tooltip";
 
 // Defining metadata
 export const metadata: Metadata = {
@@ -73,7 +74,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                )}
             >
                <Toaster />
-               {children}
+               <TooltipProvider>{children}</TooltipProvider>
             </body>
          </html>
       </ThemeProvider>
