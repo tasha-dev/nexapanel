@@ -1,8 +1,11 @@
+// Codes by mahdi tasha
+// Importing part
 import type { NextConfig } from "next";
 
+// Defining next.js configs
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
+   reactCompiler: true,
 };
 
+// Exporting the configs as default
 export default nextConfig;
