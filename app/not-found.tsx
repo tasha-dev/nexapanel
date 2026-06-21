@@ -19,7 +19,7 @@ export default function NotFoundPage() {
          <Header />
          <section className="flex items-center justify-center min-h-[calc(100dvh-60px)]">
             <main className="prose prose-neutral dark:prose-invert max-w-lg w-full p-4">
-               <h1 className="text-center mt-0 mb-3">404</h1>
+               <h1 className="text-center mt-0 text-destructive mb-3">404</h1>
                <p className="text-center mt-0 mb-6">
                   The page you are looking for is not found!
                </p>
