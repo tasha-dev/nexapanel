@@ -23,13 +23,12 @@ export default function Pagination({
    onPageChange,
 }: PaginationProps) {
    // Defining variables
-   const [currentPage, setCurrentPage] = useState(Math.floor(skip / limit) + 1);
+   const currentPage = Math.floor(skip / limit) + 1;
    const totalPages = Math.ceil(total / limit);
 
    // Defining change of pages function
    const changePage = (page: number) => {
       onPageChange((page - 1) * limit);
-      setCurrentPage(page);
    };
 
    // Getting number of pages
@@ -40,25 +39,14 @@ export default function Pagination({
          return Array.from({ length: totalPages }, (_, i) => i + 1);
       }
 
-      pages.push(1);
-
-      if (currentPage > 3) {
-         pages.push("...");
+      if (currentPage <= 3) {
+         pages.push(1, 2, 3, "...", totalPages);
+      } else if (currentPage >= totalPages - 2) {
+         pages.push(1, "...", totalPages - 2, totalPages - 1, totalPages);
+      } else {
+         pages.push(1, "...", currentPage, "...", totalPages);
       }
 
-      for (
-         let i = Math.max(2, currentPage - 1);
-         i <= Math.min(totalPages - 1, currentPage + 1);
-         i++
-      ) {
-         pages.push(i);
-      }
-
-      if (currentPage < totalPages - 2) {
-         pages.push("...");
-      }
-
-      pages.push(totalPages);
       return pages;
    };
 
@@ -89,7 +77,10 @@ export default function Pagination({
                         isActive={page === currentPage}
                         onClick={(e) => {
                            e.preventDefault();
-                           changePage(page);
+
+                           if (page !== currentPage) {
+                              changePage(page);
+                           }
                         }}
                      >
                         {page}
