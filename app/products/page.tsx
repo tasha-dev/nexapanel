@@ -57,7 +57,7 @@ export default function Products() {
          <Header />
          <section className="p-4 max-w-4xl mx-auto">
             <div className="prose dark:prose-invert prose-neutral w-full max-w-full mb-10">
-               <h1>{}</h1>
+               <h1>Products</h1>
             </div>
             <main>
                {products.isPending ? (
