@@ -81,7 +81,7 @@ export default function Categories() {
                         <div className="flex flex-wrap gap-2">
                            {categories.data.map((item, index) => (
                               <Badge asChild key={index}>
-                                 <Link href={`/category/${item.slug}`}>
+                                 <Link href={`/categories/${item.slug}`}>
                                     <Tag />
                                     {item.name}
                                  </Link>

@@ -20,32 +20,23 @@ import {
    EmptyMedia,
    EmptyTitle,
 } from "@/component/ui/empty";
-import { Input } from "@/component/ui/input";
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/component/ui/select";
 import { axiosInstance } from "@/lib/axios";
 import { GETProductType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, ShoppingCart } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
-// Creating and exporting Products page as default
-export default function Products() {
+// Creating and exporting CategoryProducts page as default
+export default function CategoryProducts() {
    // Defining hooks
+   const params = useParams<{ slug: string }>();
    const [skip, setSkip] = useState(0);
-   const [searchAttempt, setSearchAttempt] = useState("");
-   const [search, setSearch] = useState("");
-   const [order, setOrder] = useState<"desc" | "asc">("desc");
    const products = useQuery<GETProductType>({
-      queryKey: ["products", skip, order, search],
+      queryKey: ["category-products", skip],
       queryFn: async () => {
          const data = await axiosInstance.get(
-            `/products?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
+            `/products/category/${params.slug}/?skip=${skip}&limit=9`,
          );
          return data.data;
       },
@@ -57,7 +48,7 @@ export default function Products() {
          <Header />
          <section className="p-4 max-w-4xl mx-auto">
             <div className="prose dark:prose-invert prose-neutral w-full max-w-full mb-10">
-               <h1>{}</h1>
+               <h1>{params.slug} Products</h1>
             </div>
             <main>
                {products.isPending ? (
@@ -91,35 +82,6 @@ export default function Products() {
                      </Empty>
                   ) : (
                      <>
-                        <div className="flex gap-3 mb-5">
-                           <Input
-                              className="flex-1"
-                              placeholder="Search term"
-                              onChange={(e) => setSearchAttempt(e.target.value)}
-                              value={searchAttempt}
-                           />
-                           <Button
-                              onClick={() => {
-                                 setSearch(searchAttempt);
-                              }}
-                           >
-                              Search
-                           </Button>
-                           <Select
-                              value={order}
-                              onValueChange={(value: "desc" | "asc") => {
-                                 setOrder(value);
-                              }}
-                           >
-                              <SelectTrigger className="shrink-0">
-                                 <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                 <SelectItem value="desc">Desc</SelectItem>
-                                 <SelectItem value="asc">Asc</SelectItem>
-                              </SelectContent>
-                           </Select>
-                        </div>
                         {products.isRefetching ? (
                            <div className="h-[500px] flex items-center justify-center">
                               <Loader2 className="size-8 animate-spin" />
