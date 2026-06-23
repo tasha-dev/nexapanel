@@ -11,3 +11,8 @@ export interface ThemeTogglerProps {
    size?: "icon-sm" | "icon" | "icon-lg";
    variant?: "ghost" | "outline" | "default";
 }
+
+export interface AuthProviderProps {
+   children: ReactNode;
+   authOnly?: boolean | "reverse";
+}

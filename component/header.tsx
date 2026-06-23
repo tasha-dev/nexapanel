@@ -15,20 +15,19 @@ export default function Header() {
    return (
       <header className="border-b border-b-foreground/10">
          <div className="max-w-4xl flex items-center justify-between mx-auto h-14 px-4">
-            <Image
-               src={Logo.src}
-               alt="NextPanel Logo"
-               width={100}
-               height={100}
-               className="size-9"
-            />
+            <Link href="/">
+               <Image
+                  src={Logo.src}
+                  alt="NextPanel Logo"
+                  width={100}
+                  height={100}
+                  className="size-9"
+               />
+            </Link>
             <div className="flex items-center justify-center gap-2">
                <ThemeToggler variant="outline" />
                <Button variant={"outline"} asChild className="lg:flex hidden">
-                  <Link
-                     href="https://github.com/MohamadMahdi-Tasha"
-                     target="_blank"
-                  >
+                  <Link href="https://github.com/tasha-dev" target="_blank">
                      <Github />
                      Github
                   </Link>
@@ -41,7 +40,7 @@ export default function Header() {
                         className="lg:hidden flex"
                         size={"icon"}
                      >
-                        <Link href="https://github.com/MohamadMahdi-Tasha">
+                        <Link href="https://github.com/tasha-dev">
                            <Github />
                         </Link>
                      </Button>
