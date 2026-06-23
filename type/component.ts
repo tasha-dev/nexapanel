@@ -1,6 +1,8 @@
 // Codes by mahdi tasha
 // Importing part
 import { ReactNode } from "react";
+import { Product } from "./general";
+import { UseQueryResult } from "@tanstack/react-query";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -15,4 +17,16 @@ export interface ThemeTogglerProps {
 export interface AuthProviderProps {
    children: ReactNode;
    authOnly?: boolean | "reverse";
+}
+
+export interface ProductProps {
+   data: Product;
+   className?: string;
+}
+
+export interface PaginationProps {
+   total: number;
+   skip: number;
+   limit: number;
+   onPageChange: (skip: number) => void;
 }
