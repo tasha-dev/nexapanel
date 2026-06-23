@@ -13,9 +13,15 @@ export interface GETMeType {
    image: string;
 }
 
-export type GETProductType = {
+export interface GETProductType {
    products: Product[];
    total: number;
    skip: number;
    limit: number;
-};
+}
+
+export type GETCategoriesType = {
+   slug: string;
+   name: string;
+   url: string;
+}[];

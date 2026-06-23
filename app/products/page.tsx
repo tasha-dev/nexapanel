@@ -65,10 +65,10 @@ export default function Products() {
                      <Loader2 className="size-8 animate-spin" />
                   </div>
                ) : products.isError ? (
-                  <Alert>
+                  <Alert variant={"destructive"}>
                      <AlertTitle>Error</AlertTitle>
                      <AlertDescription>
-                        {products.error.message}
+                        There was an error while trying to fetch the products.
                      </AlertDescription>
                      <AlertAction>
                         <Button onClick={() => products.refetch()}>
