@@ -7,12 +7,12 @@ import {
    CardFooter,
    CardHeader,
    CardTitle,
-} from "./ui/card";
+} from "@/component/ui/card";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "@/component/ui/button";
 import { Search, ShoppingCart, Tag } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
+import { Badge } from "@/component/ui/badge";
 import { cn } from "@/lib/util";
 
 // Creating and exporting Product component as default

@@ -5,7 +5,7 @@
 // Importing part
 import Header from "@/component/header";
 import Pagination from "@/component/pagination";
-import Product from "@/component/product";
+import Product from "@/component/product/product";
 import {
    Alert,
    AlertAction,

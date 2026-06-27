@@ -30,3 +30,8 @@ export interface PaginationProps {
    limit: number;
    onPageChange: (skip: number) => void;
 }
+
+export interface ProductReviewProps {
+   data: Product["reviews"][0];
+   className?: string;
+}

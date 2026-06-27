@@ -48,6 +48,8 @@ export default function Login() {
          await mutation.mutateAsync(data);
          toast.success("Logged in successfully. 🍻");
          router.push("/admin");
+
+         localStorage.setItem("auth", true);
       } catch {
          toast.error("There was an error while fetching your data.", {
             action: (
