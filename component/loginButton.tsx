@@ -13,7 +13,7 @@ import { Skeleton } from "./ui/skeleton";
 // Creating and exporting LoginButton component as default
 export default function LoginButton() {
    // Defining hooks
-   const { isLoggedIn, isLoading } = useLoggedIn();
+   const { isLoggedIn, isLoading, data } = useLoggedIn();
 
    // Conditional rendering
    if (isLoading) {
@@ -24,27 +24,54 @@ export default function LoginButton() {
          </>
       );
    } else {
-      return (
-         <>
-            <Button asChild className="lg:flex hidden">
-               <Link href={isLoggedIn ? "/dashboard" : "/login"}>
-                  <LogIn />
-                  {isLoggedIn ? "Dashboard" : "Login"}
-               </Link>
-            </Button>
-            <Tooltip>
-               <TooltipTrigger>
-                  <Button asChild className="lg:hidden flex" size={"icon"}>
-                     <Link href={isLoggedIn ? "/dashboard" : "/login"}>
-                        <LogIn />
-                     </Link>
-                  </Button>
-               </TooltipTrigger>
-               <TooltipContent>
-                  {isLoggedIn ? "Dashboard" : "Login"}
-               </TooltipContent>
-            </Tooltip>
-         </>
-      );
+      if (data) {
+         return (
+            <>
+               <Button asChild className="lg:flex hidden">
+                  <Link href={isLoggedIn ? "/admin" : "/login"}>
+                     <LogIn />
+                     {isLoggedIn
+                        ? `${data.firstName} ${data.lastName}`
+                        : "Login"}
+                  </Link>
+               </Button>
+               <Tooltip>
+                  <TooltipTrigger>
+                     <Button asChild className="lg:hidden flex" size={"icon"}>
+                        <Link href={isLoggedIn ? "/dashboard" : "/login"}>
+                           <LogIn />
+                        </Link>
+                     </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                     {isLoggedIn
+                        ? `${data.firstName} ${data.lastName}`
+                        : "Login"}
+                  </TooltipContent>
+               </Tooltip>
+            </>
+         );
+      } else {
+         return (
+            <>
+               <Button asChild className="lg:flex hidden">
+                  <Link href={"/login"}>
+                     <LogIn />
+                     Login
+                  </Link>
+               </Button>
+               <Tooltip>
+                  <TooltipTrigger>
+                     <Button asChild className="lg:hidden flex" size={"icon"}>
+                        <Link href={"/login"}>
+                           <LogIn />
+                        </Link>
+                     </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Login</TooltipContent>
+               </Tooltip>
+            </>
+         );
+      }
    }
 }

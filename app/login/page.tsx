@@ -25,6 +25,8 @@ import { axiosInstance } from "@/lib/axios";
 import { toast } from "sonner";
 import AuthProvider from "@/component/layout/authProvider";
 import { useRouter } from "next/navigation";
+import authStore from "@/store/auth";
+import { POSTLoginType } from "@/type/api";
 
 // Defining typeo of form
 type FormType = z.infer<typeof FormSchema>;
@@ -33,6 +35,7 @@ type FormType = z.infer<typeof FormSchema>;
 export default function Login() {
    // Defining hooks
    const router = useRouter();
+   const auth = authStore();
 
    const form = useForm<FormType>({
       resolver: zodResolver(FormSchema),
@@ -40,15 +43,26 @@ export default function Login() {
 
    const mutation = useMutation({
       mutationFn: (data: FormType) =>
-         axiosInstance.post("/auth/login", { expiresInMins: 60, ...data }),
+         axiosInstance.post<POSTLoginType>("/auth/login", {
+            expiresInMins: 60,
+            ...data,
+         }),
    });
 
    // Defining submit handler
    const submitHandler: SubmitHandler<FormType> = async (data) => {
       try {
-         await mutation.mutateAsync(data);
+         const {
+            data: { accessToken, refreshToken, ...userData },
+         } = await mutation.mutateAsync(data);
+
          toast.success("Logged in successfully. 🍻");
-         router.push("/admin");
+
+         auth.setAccessToken(accessToken);
+         auth.setRefreshToken(refreshToken);
+         auth.setUserData(userData);
+
+         router.push("/");
       } catch {
          toast.error("There was an error while fetching your data.", {
             action: (

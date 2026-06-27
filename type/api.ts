@@ -44,3 +44,20 @@ export interface GETCart {
    totalProducts: number;
    totalQuantity: number;
 }
+
+export interface POSTLoginType {
+   id: number;
+   username: string;
+   email: string;
+   firstName: string;
+   lastName: string;
+   gender: "male" | "female";
+   image: string;
+   accessToken: string;
+   refreshToken: string;
+}
+
+export interface POSTRefreshType {
+   refreshToken: string;
+   accessToken: string;
+}
