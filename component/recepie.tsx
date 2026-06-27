@@ -49,7 +49,7 @@ export default function Recpie({ data, className }: RecpieProps) {
             </div>
          </div>
          <CardHeader>
-            <CardTitle>{data.name}</CardTitle>
+            <CardTitle className="truncate">{data.name}</CardTitle>
             <CardDescription className="line-clamp-2">
                {data.instructions.join(" ")}
             </CardDescription>

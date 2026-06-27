@@ -54,7 +54,7 @@ export default function SingleProduct() {
                   <Alert variant={"destructive"}>
                      <AlertTitle>Error</AlertTitle>
                      <AlertDescription>
-                        There was an error while trying to fetch the products.
+                        There was an error while trying to fetch the product.
                      </AlertDescription>
                      <AlertAction>
                         <Button onClick={() => product.refetch()}>
