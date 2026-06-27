@@ -1,8 +1,7 @@
 // Codes by mahdi tasha
 // Importing part
 import { ReactNode } from "react";
-import { Product } from "./general";
-import { UseQueryResult } from "@tanstack/react-query";
+import { Product, Recipe } from "./general";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -34,4 +33,9 @@ export interface PaginationProps {
 export interface ProductReviewProps {
    data: Product["reviews"][0];
    className?: string;
+}
+
+export interface RecpieProps {
+   className?: string;
+   data: Recipe;
 }

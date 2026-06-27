@@ -1,6 +1,6 @@
 // Codes by mahdi tasha
 // Importing part
-import { Product } from "./general";
+import { Product, Recipe } from "./general";
 
 // Creating and exporting type retriven data from api
 export interface GETMeType {
@@ -60,4 +60,11 @@ export interface POSTLoginType {
 export interface POSTRefreshType {
    refreshToken: string;
    accessToken: string;
+}
+
+export interface GETRecipeType {
+   recipes: Recipe[];
+   total: number;
+   skip: number;
+   limit: number;
 }
