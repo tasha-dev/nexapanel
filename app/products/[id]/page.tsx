@@ -44,7 +44,7 @@ export default function SingleProduct() {
    return (
       <>
          <Header />
-         <section className="p-4 max-w-4xl mx-auto lg:pb-4 pb-20">
+         <section className="p-4 max-w-4xl mx-auto lg:pb-4 pb-20 overflow-hidden">
             <main>
                {product.isPending ? (
                   <div className="h-[500px] flex items-center justify-center">
@@ -65,7 +65,7 @@ export default function SingleProduct() {
                ) : !product.isPending && !product.isError && product.data ? (
                   <>
                      <div className="grid lg:grid-cols-6 gap-4 mb-10">
-                        <Carousel className="lg:col-span-2">
+                        <Carousel className="lg:col-span-2 overflow-hidden w-full">
                            <CarouselContent className="flex">
                               {product.data.images.map((item, index) => (
                                  <CarouselItem key={index}>
@@ -83,13 +83,13 @@ export default function SingleProduct() {
                            </CarouselContent>
                         </Carousel>
                         <div className="prose dark:prose-invert prose-neutral lg:col-span-4 w-full max-w-full">
-                           <h1 className="truncate mt-0 mb-3">
+                           <h1 className="lg:truncate mt-0 mb-3">
                               {product.data.title}
                            </h1>
                            <h2 className="mt-0 mb-4">{product.data.price}$</h2>
                            <ul className="mt-0">
                               <li>
-                                 Discount : {product.data.discountPercentage}
+                                 Discount : {product.data.discountPercentage}$
                               </li>
                               <li>Rating : {product.data.rating}</li>
                               <li>Stock : {product.data.stock}</li>
@@ -165,19 +165,21 @@ export default function SingleProduct() {
                            <hr />
                         </div>
                      )}
-                     <Link
-                        href={product.data.meta.qrCode}
-                        target="_blank"
-                        className="inline-block mt-4 border border-border rounded-md cursor-pointer overflow-hidden transition-all duration-300 active:scale-95"
-                     >
-                        <Image
-                           src={product.data.meta.qrCode}
-                           alt={"Qr CODE"}
-                           width={100}
-                           height={100}
-                           className="size-auto"
-                        />
-                     </Link>
+                     <div className="flex items-center justify-center">
+                        <Link
+                           href={product.data.meta.qrCode}
+                           target="_blank"
+                           className="inline-block mt-4 border border-border rounded-md cursor-pointer overflow-hidden transition-all duration-300 active:scale-95"
+                        >
+                           <Image
+                              src={product.data.meta.qrCode}
+                              alt={"Qr CODE"}
+                              width={100}
+                              height={100}
+                              className="size-auto"
+                           />
+                        </Link>
+                     </div>
                   </>
                ) : (
                   false
