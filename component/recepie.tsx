@@ -5,17 +5,10 @@
 // Importing part
 import { cn } from "@/lib/util";
 import { RecpieProps } from "@/type/component";
-import {
-   Card,
-   CardDescription,
-   CardFooter,
-   CardHeader,
-   CardTitle,
-} from "./ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
-import { Hash, Search, Star } from "lucide-react";
-import { Button } from "./ui/button";
+import { Hash, Star } from "lucide-react";
 import Link from "next/link";
 
 // Creating and exporting Recpie component as default

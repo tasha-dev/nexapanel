@@ -26,11 +26,11 @@ export default function Post({ data, className }: PostProps) {
                <div className="bg-linear-0 from-card to-transparent absolute w-full h-[200px] left-0 bottom-0 z-10" />
                <div className="z-20 p-4 absolute left-0 top-0 w-full">
                   <div className="flex items-start justify-end gap-2 w-full">
-                     <Badge className="shrink-0 bg-green-500/10 text-green-500">
+                     <Badge className="shrink-0 bg-green-500/20 text-green-500 border border-current/30">
                         <ThumbsUp className="fill-current" />
                         {data.reactions.likes}
                      </Badge>
-                     <Badge className="shrink-0 bg-red-500/10 text-red-500">
+                     <Badge className="shrink-0 bg-red-500/20 text-red-500 border border-current/30">
                         <ThumbsDown className="fill-current" />
                         {data.reactions.dislikes}
                      </Badge>
