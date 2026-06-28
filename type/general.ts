@@ -71,3 +71,10 @@ export interface Post {
       dislikes: number;
    };
 }
+
+export interface Todo {
+   id: number;
+   todo: string;
+   completed: boolean;
+   userId: number;
+}

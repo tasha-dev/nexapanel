@@ -1,7 +1,7 @@
 // Codes by mahdi tasha
 // Importing part
 import { ReactNode } from "react";
-import { Post, Product, Recipe } from "./general";
+import { Post, Product, Recipe, Todo } from "./general";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -43,4 +43,9 @@ export interface RecpieProps {
 export interface PostProps {
    className?: string;
    data: Post;
+}
+
+export interface TodoProps {
+   className?: string;
+   data: Todo;
 }

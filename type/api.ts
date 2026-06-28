@@ -1,6 +1,6 @@
 // Codes by mahdi tasha
 // Importing part
-import { Post, Product, Recipe } from "./general";
+import { Post, Product, Recipe, Todo } from "./general";
 
 // Creating and exporting type retriven data from api
 export interface GETMeType {
@@ -81,3 +81,10 @@ export type GETPostsTags = {
    name: string;
    url: string;
 }[];
+
+export interface GETTodoType {
+   todos: Todo[];
+   total: number;
+   skip: number;
+   limit: number;
+}
