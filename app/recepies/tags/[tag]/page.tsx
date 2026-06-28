@@ -32,20 +32,25 @@ import { axiosInstance } from "@/lib/axios";
 import { GETRecipeType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, Pizza } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
-// Creating and exporting RecepiesPage as default
-export default function RecepiesPage() {
+// Creating and exporting TagRecepiesPage as default
+export default function TagRecepiesPage() {
    // Defining hooks
+   const param = useParams<{
+      tag: string;
+   }>();
+
    const [skip, setSkip] = useState(0);
    const [searchAttempt, setSearchAttempt] = useState("");
    const [search, setSearch] = useState("");
    const [order, setOrder] = useState<"desc" | "asc">("desc");
    const recepies = useQuery<GETRecipeType>({
-      queryKey: ["recepies", skip, search, order],
+      queryKey: ["recepies-tag", param.tag, skip, search, order],
       queryFn: async () => {
          const data = await axiosInstance.get(
-            `/recipes?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
+            `/recipes/tag/${param.tag}?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
          );
 
          return data.data;
@@ -58,7 +63,7 @@ export default function RecepiesPage() {
          <Header />
          <section className="p-4 max-w-4xl mx-auto">
             <div className="prose dark:prose-invert prose-neutral w-full max-w-full mb-10">
-               <h1>Recepies</h1>
+               <h1>{param.tag} Recepies</h1>
             </div>
             <main>
                {recepies.isPending ? (
