@@ -21,7 +21,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { Product } from "@/type/general";
 import { useQuery } from "@tanstack/react-query";
-import { Hash, Heading4, Loader2, ShoppingCart, Tag } from "lucide-react";
+import { Hash, Loader2, ShoppingCart, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
