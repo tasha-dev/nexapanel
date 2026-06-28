@@ -16,7 +16,17 @@ import { Button } from "@/component/ui/button";
 import { axiosInstance } from "@/lib/axios";
 import { Recipe } from "@/type/general";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, Pizza, Star, Tag } from "lucide-react";
+import {
+   Clock,
+   ForkKnifeCrossedIcon,
+   Hamburger,
+   Loader2,
+   MessageCircle,
+   Pizza,
+   SproutIcon,
+   Star,
+   Tag,
+} from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
@@ -56,67 +66,79 @@ export default function SingleRecepiePage() {
                      </AlertAction>
                   </Alert>
                ) : !recepie.isPending && !recepie.isError && recepie.data ? (
-                  <div className="prose prose-neutral dark:prose-invert w-full max-w-full">
-                     <div className="relative z-0 overflow-hidden rounded-lg">
+                  <>
+                     <div className="relative z-0 overflow-hidden rounded-lg bg-red-500 mb-10">
                         <Image
                            alt={recepie.data.name}
                            src={recepie.data.image}
                            width={500}
                            height={500}
-                           className="w-full aspect-video object-cover rounded-none z-0"
+                           className="w-full h-[300px] object-cover rounded-none z-0"
                         />
                         <div className="z-20 p-4 absolute left-0 top-0 w-full">
                            <div className="flex items-start justify-between gap-2 w-full">
-                              <div className="flex flex-wrap gap-1 flex-1"></div>
-                              <Badge className="shrink-0">
-                                 <Star className="fill-current stroke-current" />
-                                 {recepie.data.rating}
-                              </Badge>
+                              <div className="flex flex-wrap items-center justify-start gap-1">
+                                 {recepie.data.mealType.map((item, index) => (
+                                    <Badge key={index}>
+                                       <Pizza />
+                                       {item}
+                                    </Badge>
+                                 ))}
+                                 <Badge className="shrink-0">
+                                    <Clock />
+                                    {`${recepie.data.prepTimeMinutes + recepie.data.cookTimeMinutes} Minutes`}
+                                 </Badge>
+                                 <Badge className="shrink-0">
+                                    <ForkKnifeCrossedIcon />
+                                    {recepie.data.cuisine}
+                                 </Badge>
+                                 <Badge className="shrink-0">
+                                    <SproutIcon />
+                                    {recepie.data.difficulty}
+                                 </Badge>
+                                 <Badge className="shrink-0">
+                                    <Hamburger />
+                                    {`${recepie.data.caloriesPerServing} Kcal`}
+                                 </Badge>
+                              </div>
+                              <div className="flex items-center justify-start gap-1 shrink-0">
+                                 <Badge>
+                                    <Star className="fill-current stroke-current" />
+                                    {recepie.data.rating}
+                                 </Badge>
+                                 <Badge>
+                                    <MessageCircle />
+                                    {recepie.data.reviewCount}
+                                 </Badge>
+                              </div>
                            </div>
                         </div>
                      </div>
-                     <div className="flex items-center justify-start gap-3 flex-wrap mb-5">
-                        {recepie.data.mealType.map((item, index) => (
-                           <Badge key={index}>
-                              <Pizza />
-                              {item}
-                           </Badge>
-                        ))}
+                     <div className="prose prose-neutral dark:prose-invert w-full max-w-full">
+                        <h1>{recepie.data.name}</h1>
+                        <h3>Ingredients</h3>
+                        <ul>
+                           {recepie.data.ingredients.map((item, index) => (
+                              <li key={index}>{item}</li>
+                           ))}
+                        </ul>
+                        <h3>Instructions</h3>
+                        <ol>
+                           {recepie.data.instructions.map((item, index) => (
+                              <li key={index}>{item}</li>
+                           ))}
+                        </ol>
+                        <hr />
+                        <div className="flex flex-wrap gap-2">
+                           {recepie.data.tags.map((item, index) => (
+                              <Badge key={index}>
+                                 <Tag />
+                                 {item}
+                              </Badge>
+                           ))}
+                        </div>
                      </div>
-                     <h1>{recepie.data.name}</h1>
-                     <h3>Infomation</h3>
-                     <ul>
-                        <li>Difficulty: {recepie.data.difficulty}</li>
-                        <li>Cuisine: {recepie.data.cuisine}</li>
-                        <li>Serving: {recepie.data.servings}</li>
-                        <li>
-                           Calores per serving:{" "}
-                           {recepie.data.caloriesPerServing}
-                        </li>
-                        <li>
-                           Prep time: {recepie.data.prepTimeMinutes} Minutes
-                        </li>
-                        <li>
-                           Cook time: {recepie.data.cookTimeMinutes} Minutes
-                        </li>
-                     </ul>
-                     <h3>Ingredients</h3>
-                     <ul>
-                        {recepie.data.ingredients.map((item, index) => (
-                           <li key={index}>{item}</li>
-                        ))}
-                     </ul>
-                     <h3>Instructions</h3>
-                     <ol>
-                        {recepie.data.instructions.map((item, index) => (
-                           <li key={index}>{item}</li>
-                        ))}
-                     </ol>
-                     <hr />
-                     <div className="flex items-center justify-between gap-2">
-                        {recepie.data.mealType.join(" ")}
-                     </div>
-                  </div>
+                  </>
                ) : (
                   false
                )}
