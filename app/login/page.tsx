@@ -25,7 +25,6 @@ import { axiosInstance } from "@/lib/axios";
 import { toast } from "sonner";
 import AuthProvider from "@/component/layout/authProvider";
 import { useRouter } from "next/navigation";
-import authStore from "@/store/auth";
 import { POSTLoginType } from "@/type/api";
 
 // Defining typeo of form
@@ -35,8 +34,6 @@ type FormType = z.infer<typeof FormSchema>;
 export default function Login() {
    // Defining hooks
    const router = useRouter();
-   const auth = authStore();
-
    const form = useForm<FormType>({
       resolver: zodResolver(FormSchema),
    });
@@ -53,16 +50,16 @@ export default function Login() {
    const submitHandler: SubmitHandler<FormType> = async (data) => {
       try {
          const {
-            data: { accessToken, refreshToken, ...userData },
+            data: { accessToken, refreshToken },
          } = await mutation.mutateAsync(data);
 
          toast.success("Logged in successfully. 🍻");
 
-         auth.setAccessToken(accessToken);
-         auth.setRefreshToken(refreshToken);
-         auth.setUserData(userData);
+         // This is a bad practice to save access and refresh token on local storage since it can improve the chance of XSS attacks on website
+         localStorage.setItem("accessToken", accessToken);
+         localStorage.setItem("refreshToken", refreshToken);
 
-         router.push("/");
+         router.push("/admin");
       } catch {
          toast.error("There was an error while fetching your data.", {
             action: (
