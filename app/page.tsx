@@ -2,8 +2,54 @@
 // Importing part
 import Header from "@/component/header";
 import { Button } from "@/component/ui/button";
-import { CheckSquare, Pen, Pizza, Quote, ShoppingCart } from "lucide-react";
+import {
+   CheckSquare,
+   MessageCircleMore,
+   Pen,
+   Pizza,
+   Quote,
+   ShoppingCart,
+} from "lucide-react";
 import Link from "next/link";
+import { ReactNode } from "react";
+
+// Defining data to render usefull links
+const data: {
+   href: string;
+   label: string;
+   icon: ReactNode;
+}[] = [
+   {
+      href: "/products",
+      label: "Products",
+      icon: <ShoppingCart />,
+   },
+   {
+      href: "/recepies",
+      label: "Recepies",
+      icon: <Pizza />,
+   },
+   {
+      href: "/posts",
+      label: "Posts",
+      icon: <Pen />,
+   },
+   {
+      href: "/todos",
+      label: "Todos",
+      icon: <CheckSquare />,
+   },
+   {
+      href: "/quotes",
+      label: "Quotes",
+      icon: <Quote />,
+   },
+   {
+      href: "/comments",
+      label: "Comments",
+      icon: <MessageCircleMore />,
+   },
+];
 
 // Creating and exporting Home page as default
 export default function HomePage() {
@@ -19,36 +65,14 @@ export default function HomePage() {
                   TypeScript, and Tailwind CSS.
                </p>
                <div className="flex justify-center flex-wrap gap-2 items-center">
-                  <Button asChild variant={"outline"}>
-                     <Link href="/products" className="no-underline">
-                        <ShoppingCart />
-                        Products
-                     </Link>
-                  </Button>
-                  <Button asChild variant={"outline"}>
-                     <Link href="/recepies" className="no-underline">
-                        <Pizza />
-                        Recepies
-                     </Link>
-                  </Button>
-                  <Button asChild variant={"outline"}>
-                     <Link href="/posts" className="no-underline">
-                        <Pen />
-                        Posts
-                     </Link>
-                  </Button>
-                  <Button asChild variant={"outline"}>
-                     <Link href="/todos" className="no-underline">
-                        <CheckSquare />
-                        Todos
-                     </Link>
-                  </Button>
-                  <Button asChild variant={"outline"}>
-                     <Link href="/quotes" className="no-underline">
-                        <Quote />
-                        Quotes
-                     </Link>
-                  </Button>
+                  {data.map((item, index) => (
+                     <Button asChild variant={"outline"} key={index}>
+                        <Link href={item.href} className="no-underline">
+                           {item.icon}
+                           {item.label}
+                        </Link>
+                     </Button>
+                  ))}
                </div>
             </main>
          </section>
