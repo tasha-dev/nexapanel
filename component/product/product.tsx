@@ -20,20 +20,23 @@ export default function Product({ data, className }: ProductProps) {
    // Returning JSX
    return (
       <Card className={cn("pt-0", className)}>
-         <div className="relative mt-0">
+         <div className="relative z-0 overflow-hidden bg-muted-foreground">
             <Image
-               src={data.thumbnail}
                alt={data.title}
-               width={200}
-               height={200}
-               className="w-full h-[200px] object-cover bg-muted-foreground"
+               src={data.thumbnail}
+               width={300}
+               height={500}
+               className="w-full h-[200px] object-cover rounded-none z-0"
             />
-            <Badge className="absolute left-4 top-4" asChild>
-               <Link href={`/categories/${data.category}`}>
-                  <Tag />
-                  {data.category}
-               </Link>
-            </Badge>
+            <div className="bg-linear-0 from-card to-transparent absolute w-full h-[200px] left-0 bottom-0 z-10" />
+            <div className="z-20 p-4 absolute left-0 top-0 w-full">
+               <Badge className="absolute left-4 top-4" asChild>
+                  <Link href={`/categories/${data.category}`}>
+                     <Tag />
+                     {data.category}
+                  </Link>
+               </Badge>
+            </div>
          </div>
          <CardHeader>
             <CardTitle className="truncate">{data.title}</CardTitle>

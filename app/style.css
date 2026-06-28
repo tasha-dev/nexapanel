@@ -125,4 +125,8 @@
    button {
       @apply cursor-pointer;
    }
+
+   .no-scrollbar::-webkit-scrollbar {
+      @apply hidden;
+   }
 }
