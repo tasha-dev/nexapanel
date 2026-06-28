@@ -28,9 +28,9 @@ import Link from "next/link";
 export default function TagsContainer() {
    // Defining hooks
    const tags = useQuery<GETPostsTags>({
-      queryKey: ["post-tags"],
+      queryKey: ["recepie-tags"],
       queryFn: async () => {
-         const data = await axiosInstance.get("/posts/tags");
+         const data = await axiosInstance.get("/recipes/tags");
          return data.data;
       },
    });
