@@ -5,7 +5,7 @@
 // Importing part
 import Header from "@/component/header";
 import Pagination from "@/component/pagination";
-import Recpie from "@/component/recepie";
+import Post from "@/component/post";
 import {
    Alert,
    AlertAction,
@@ -29,14 +29,14 @@ import {
    SelectValue,
 } from "@/component/ui/select";
 import { axiosInstance } from "@/lib/axios";
-import { GETRecipeType } from "@/type/api";
+import { GETPostsType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, Pizza } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
-// Creating and exporting TagRecepiesPage as default
-export default function TagRecepiesPage() {
+// Creating and exporting TagPostPage as default
+export default function TagPostPage() {
    // Defining hooks
    const param = useParams<{
       tag: string;
@@ -46,11 +46,11 @@ export default function TagRecepiesPage() {
    const [searchAttempt, setSearchAttempt] = useState("");
    const [search, setSearch] = useState("");
    const [order, setOrder] = useState<"desc" | "asc">("desc");
-   const recepies = useQuery<GETRecipeType>({
+   const posts = useQuery<GETPostsType>({
       queryKey: ["recepies-tag", param.tag, skip, search, order],
       queryFn: async () => {
          const data = await axiosInstance.get(
-            `/recipes/tag/${param.tag}?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
+            `/posts/tag/${param.tag}?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
          );
 
          return data.data;
@@ -63,27 +63,27 @@ export default function TagRecepiesPage() {
          <Header />
          <section className="p-4 max-w-4xl mx-auto">
             <div className="prose dark:prose-invert prose-neutral w-full max-w-full mb-10">
-               <h1>"{param.tag}" Recepies</h1>
+               <h1>"{param.tag}" Posts</h1>
             </div>
             <main>
-               {recepies.isPending ? (
+               {posts.isPending ? (
                   <div className="h-[500px] flex items-center justify-center">
                      <Loader2 className="size-8 animate-spin" />
                   </div>
-               ) : recepies.isError ? (
+               ) : posts.isError ? (
                   <Alert variant={"destructive"}>
                      <AlertTitle>Error</AlertTitle>
                      <AlertDescription>
-                        There was an error while trying to fetch the recepies.
+                        There was an error while trying to fetch the posts.
                      </AlertDescription>
                      <AlertAction>
-                        <Button onClick={() => recepies.refetch()}>
+                        <Button onClick={() => posts.refetch()}>
                            Try again
                         </Button>
                      </AlertAction>
                   </Alert>
-               ) : !recepies.isPending && !recepies.isError && recepies.data ? (
-                  recepies.data.total === 0 ? (
+               ) : !posts.isPending && !posts.isError && posts.data ? (
+                  posts.data.total === 0 ? (
                      <Empty>
                         <EmptyHeader>
                            <EmptyMedia>
@@ -126,23 +126,23 @@ export default function TagRecepiesPage() {
                               </SelectContent>
                            </Select>
                         </div>
-                        {recepies.isRefetching ? (
+                        {posts.isRefetching ? (
                            <div className="h-[500px] flex items-center justify-center">
                               <Loader2 className="size-8 animate-spin" />
                            </div>
                         ) : (
                            <>
                               <div className="grid lg:grid-cols-3 gap-5 mb-10 align-items-center">
-                                 {recepies.data.recipes.map((item, index) => (
-                                    <Recpie data={item} key={index} />
+                                 {posts.data.posts.map((item, index) => (
+                                    <Post data={item} key={index} />
                                  ))}
                               </div>
                            </>
                         )}
                         <Pagination
-                           total={recepies.data.total}
-                           skip={recepies.data.skip}
-                           limit={recepies.data.limit}
+                           total={posts.data.total}
+                           skip={posts.data.skip}
+                           limit={posts.data.limit}
                            onPageChange={(page) => {
                               setSkip(page);
                            }}

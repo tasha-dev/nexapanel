@@ -75,3 +75,9 @@ export interface GETPostsType {
    skip: number;
    limit: number;
 }
+
+export type GETPostsTags = {
+   slug: string;
+   name: string;
+   url: string;
+}[];
