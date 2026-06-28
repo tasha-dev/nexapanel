@@ -4,7 +4,6 @@
 "use client";
 
 import Header from "@/component/header";
-import Recpie from "@/component/recepie";
 import {
    Alert,
    AlertAction,
@@ -28,6 +27,7 @@ import {
    Tag,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 
 // Creating and exporting SingleRecepiePage as default
@@ -131,9 +131,14 @@ export default function SingleRecepiePage() {
                         <hr />
                         <div className="flex flex-wrap gap-2">
                            {recepie.data.tags.map((item, index) => (
-                              <Badge key={index}>
-                                 <Tag />
-                                 {item}
+                              <Badge key={index} asChild>
+                                 <Link
+                                    href={`/recepies/tags/${item}`}
+                                    className="no-underline"
+                                 >
+                                    <Tag />
+                                    {item}
+                                 </Link>
                               </Badge>
                            ))}
                         </div>
