@@ -35,8 +35,8 @@ export default function Todo({ data, className }: TodoProps) {
             </div>
          </div>
          <CardHeader>
-            <CardTitle className="truncate">Todo Id : {data.id}</CardTitle>
-            <CardDescription className="truncate">{data.todo}</CardDescription>
+            <CardTitle>Todo Id : {data.id}</CardTitle>
+            <CardDescription>{data.todo}</CardDescription>
          </CardHeader>
       </Card>
    );
