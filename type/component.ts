@@ -1,7 +1,7 @@
 // Codes by mahdi tasha
 // Importing part
 import { ReactNode } from "react";
-import { Post, Product, Quote, Recipe, Todo } from "./general";
+import { Comment, Post, Product, Quote, Recipe, Todo } from "./general";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -53,4 +53,9 @@ export interface TodoProps {
 export interface QuoteProps {
    className?: string;
    data: Quote;
+}
+
+export interface CommentProps {
+   className?: string;
+   data: Comment;
 }

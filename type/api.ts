@@ -1,6 +1,6 @@
 // Codes by mahdi tasha
 // Importing part
-import { Post, Product, Quote, Recipe, Todo } from "./general";
+import { Comment, Post, Product, Quote, Recipe, Todo } from "./general";
 
 // Creating and exporting type retriven data from api
 export interface GETMeType {
@@ -91,6 +91,13 @@ export interface GETTodoType {
 
 export interface GETQuoteType {
    quotes: Quote[];
+   total: number;
+   skip: number;
+   limit: number;
+}
+
+export interface GETCommentsType {
+   comments: Comment[];
    total: number;
    skip: number;
    limit: number;

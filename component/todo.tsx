@@ -17,7 +17,7 @@ export default function Todo({ data, className }: TodoProps) {
       <Card className={cn("pt-0", className)}>
          <div className="relative z-0 overflow-hidden bg-muted-foreground h-[200px]">
             <div className="bg-linear-0 from-card to-transparent absolute w-full h-[200px] left-0 bottom-0 z-10" />
-            <div className="z-20 p-4 absolute left-0 top-0 w-full">
+            <div className="z-20 p-4 absolute left-0 top-0 w-full flex items-start justify-end">
                <Tooltip>
                   <TooltipTrigger asChild>
                      <Button
