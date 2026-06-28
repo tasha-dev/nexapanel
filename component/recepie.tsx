@@ -5,50 +5,65 @@
 // Importing part
 import { cn } from "@/lib/util";
 import { RecpieProps } from "@/type/component";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+   Card,
+   CardDescription,
+   CardFooter,
+   CardHeader,
+   CardTitle,
+} from "./ui/card";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
-import { Hash, Star } from "lucide-react";
+import { Hash, Search, Star } from "lucide-react";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 // Creating and exporting Recpie component as default
 export default function Recpie({ data, className }: RecpieProps) {
    return (
-      <Link href={`/recepies/${data.id}`}>
-         <Card className={cn("pt-0", className)}>
-            <div className="relative z-0 overflow-hidden">
-               <Image
-                  alt={data.name}
-                  src={data.image}
-                  width={300}
-                  height={500}
-                  className="w-full h-[200px] object-cover rounded-none z-0"
-               />
-               <div className="bg-linear-0 from-card to-transparent absolute w-full h-[200px] left-0 bottom-0 z-10" />
-               <div className="z-20 p-4 absolute left-0 top-0 w-full">
-                  <div className="flex items-start justify-between gap-2 w-full">
-                     <div className="flex flex-wrap gap-1 flex-1">
-                        {data.tags.map((item, index) => (
-                           <Badge key={index}>
+      <Card className={cn("pt-0", className)}>
+         <div className="relative z-0 overflow-hidden">
+            <Image
+               alt={data.name}
+               src={data.image}
+               width={300}
+               height={500}
+               className="w-full h-[200px] object-cover rounded-none z-0"
+            />
+            <div className="bg-linear-0 from-card to-transparent absolute w-full h-[200px] left-0 bottom-0 z-10" />
+            <div className="z-20 p-4 absolute left-0 top-0 w-full">
+               <div className="flex items-start justify-between gap-2 w-full">
+                  <div className="flex flex-wrap gap-1 flex-1">
+                     {data.tags.map((item, index) => (
+                        <Badge key={index} asChild>
+                           <Link href={`/recepies/tags/${item}`}>
                               <Hash />
                               {item}
-                           </Badge>
-                        ))}
-                     </div>
-                     <Badge className="shrink-0">
-                        <Star className="fill-current stroke-current" />
-                        {data.rating}
-                     </Badge>
+                           </Link>
+                        </Badge>
+                     ))}
                   </div>
+                  <Badge className="shrink-0">
+                     <Star className="fill-current stroke-current" />
+                     {data.rating}
+                  </Badge>
                </div>
             </div>
-            <CardHeader>
-               <CardTitle className="truncate">{data.name}</CardTitle>
-               <CardDescription className="line-clamp-2">
-                  {data.instructions.join(" ")}
-               </CardDescription>
-            </CardHeader>
-         </Card>
-      </Link>
+         </div>
+         <CardHeader>
+            <CardTitle className="truncate">{data.name}</CardTitle>
+            <CardDescription className="line-clamp-2">
+               {data.instructions.join(" ")}
+            </CardDescription>
+         </CardHeader>
+         <CardFooter className="flex-col gap-3">
+            <Button className="w-full" asChild>
+               <Link href={`/recepies/${data.id}`}>
+                  <Search />
+                  See Details
+               </Link>
+            </Button>
+         </CardFooter>
+      </Card>
    );
 }

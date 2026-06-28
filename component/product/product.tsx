@@ -31,7 +31,7 @@ export default function Product({ data, className }: ProductProps) {
             <div className="bg-linear-0 from-card to-transparent absolute w-full h-[200px] left-0 bottom-0 z-10" />
             <div className="z-20 p-4 absolute left-0 top-0 w-full">
                <Badge className="absolute left-4 top-4" asChild>
-                  <Link href={`/categories/${data.category}`}>
+                  <Link href={`/products/categories/${data.category}`}>
                      <Tag />
                      {data.category}
                   </Link>

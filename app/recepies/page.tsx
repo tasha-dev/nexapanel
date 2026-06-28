@@ -20,6 +20,14 @@ import {
    EmptyMedia,
    EmptyTitle,
 } from "@/component/ui/empty";
+import { Input } from "@/component/ui/input";
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/component/ui/select";
 import { axiosInstance } from "@/lib/axios";
 import { GETRecipeType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
@@ -30,8 +38,11 @@ import { useState } from "react";
 export default function RecepiesPage() {
    // Defining hooks
    const [skip, setSkip] = useState(0);
+   const [searchAttempt, setSearchAttempt] = useState("");
+   const [search, setSearch] = useState("");
+   const [order, setOrder] = useState<"desc" | "asc">("desc");
    const recepies = useQuery<GETRecipeType>({
-      queryKey: ["recepies", skip],
+      queryKey: ["recepies", skip, search, order],
       queryFn: async () => {
          const data = await axiosInstance.get(`/recipes?skip=${skip}&limit=9`);
 
@@ -79,6 +90,35 @@ export default function RecepiesPage() {
                      </Empty>
                   ) : (
                      <>
+                        <div className="flex gap-3 mb-5">
+                           <Input
+                              className="flex-1"
+                              placeholder="Search term"
+                              onChange={(e) => setSearchAttempt(e.target.value)}
+                              value={searchAttempt}
+                           />
+                           <Button
+                              onClick={() => {
+                                 setSearch(searchAttempt);
+                              }}
+                           >
+                              Search
+                           </Button>
+                           <Select
+                              value={order}
+                              onValueChange={(value: "desc" | "asc") => {
+                                 setOrder(value);
+                              }}
+                           >
+                              <SelectTrigger className="shrink-0">
+                                 <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                 <SelectItem value="desc">Desc</SelectItem>
+                                 <SelectItem value="asc">Asc</SelectItem>
+                              </SelectContent>
+                           </Select>
+                        </div>
                         {recepies.isRefetching ? (
                            <div className="h-[500px] flex items-center justify-center">
                               <Loader2 className="size-8 animate-spin" />
