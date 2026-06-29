@@ -10,6 +10,7 @@ export default function useLoggedIn(enabled: boolean = true) {
    const { isLoading, isError, data } = useQuery<GETMeType>({
       queryKey: ["me"],
       enabled,
+      refetchInterval: Infinity,
       queryFn: async () => {
          const { data } = await axiosInstance.get("/auth/me");
          return data;

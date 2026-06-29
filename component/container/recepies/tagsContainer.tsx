@@ -69,7 +69,7 @@ export default function TagsContainer() {
                   <div className="flex flex-wrap gap-2">
                      {tags.data.map((item, index) => (
                         <Badge asChild key={index}>
-                           <Link href={`/posts/tags/${item}`}>
+                           <Link href={`/recepies/tags/${item}`}>
                               <Hash />
                               {item}
                            </Link>
