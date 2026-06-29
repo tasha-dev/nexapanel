@@ -19,7 +19,6 @@ import {
    EmptyTitle,
 } from "@/component/ui/empty";
 import { axiosInstance } from "@/lib/axios";
-import { GETPostsTags } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
 import { Hash, Loader2, Pen } from "lucide-react";
 import Link from "next/link";
@@ -27,7 +26,7 @@ import Link from "next/link";
 // Creating and exporting TagsContainer component as default
 export default function TagsContainer() {
    // Defining hooks
-   const tags = useQuery<GETPostsTags>({
+   const tags = useQuery<string[]>({
       queryKey: ["recepie-tags"],
       queryFn: async () => {
          const data = await axiosInstance.get("/recipes/tags");
@@ -70,9 +69,9 @@ export default function TagsContainer() {
                   <div className="flex flex-wrap gap-2">
                      {tags.data.map((item, index) => (
                         <Badge asChild key={index}>
-                           <Link href={`/posts/tags/${item.slug}`}>
+                           <Link href={`/posts/tags/${item}`}>
                               <Hash />
-                              {item.name}
+                              {item}
                            </Link>
                         </Badge>
                      ))}
