@@ -1,8 +1,8 @@
 // Codes by mahdi tasha
-// https://dummyjson.com/
 // Forcing next.js to render this component as client side component
 "use client";
 
+// Importing part
 import Header from "@/component/header";
 import {
    Alert,
@@ -21,12 +21,13 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { Product } from "@/type/general";
 import { useQuery } from "@tanstack/react-query";
-import { Hash, Loader2, ShoppingCart, Tag } from "lucide-react";
+import { Hash, Loader2, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import moment from "moment";
 import ProductReview from "@/component/product/productReview";
+import AddToCartButton from "@/component/product/addToCartButton";
 
 // Creating and exporting Single Product page as default
 export default function SingleProduct() {
@@ -96,10 +97,13 @@ export default function SingleProduct() {
                               <li>Brand : {product.data.brand}</li>
                            </ul>
                            <div className="lg:bg-transparent bg-foreground/5 lg:static fixed bottom-0 left-0 w-full lg:p-0 p-4 lg:border-t-0 border-t border-foreground/10 lg:backdrop-blur-none backdrop-blur-2xl z-20">
-                              <Button className="lg:w-auto w-full">
-                                 <ShoppingCart />
-                                 Add To Cart
-                              </Button>
+                              <AddToCartButton
+                                 className="lg:w-auto w-full"
+                                 product={{
+                                    id: product.data.id,
+                                    stock: product.data.stock,
+                                 }}
+                              />
                            </div>
                         </div>
                      </div>

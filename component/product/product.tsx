@@ -10,10 +10,11 @@ import {
 } from "@/component/ui/card";
 import Image from "next/image";
 import { Button } from "@/component/ui/button";
-import { Search, ShoppingCart, Tag } from "lucide-react";
+import { Search, Tag } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/component/ui/badge";
 import { cn } from "@/lib/util";
+import AddToCartButton from "@/component/product/addToCartButton";
 
 // Creating and exporting Product component as default
 export default function Product({ data, className }: ProductProps) {
@@ -51,10 +52,14 @@ export default function Product({ data, className }: ProductProps) {
                   See Details
                </Link>
             </Button>
-            <Button variant={"outline"} className="w-full">
-               <ShoppingCart />
-               Add To cart
-            </Button>
+            <AddToCartButton
+               variant="outline"
+               className="w-full"
+               product={{
+                  id: data.id,
+                  stock: data.stock,
+               }}
+            />
          </CardFooter>
       </Card>
    );

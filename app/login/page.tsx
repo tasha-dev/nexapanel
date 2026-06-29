@@ -24,7 +24,7 @@ import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
 import { toast } from "sonner";
 import AuthProvider from "@/component/layout/authProvider";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { POSTLoginType } from "@/type/api";
 
 // Defining typeo of form
@@ -38,6 +38,7 @@ export default function Login() {
       resolver: zodResolver(FormSchema),
    });
 
+   const searchParams = useSearchParams();
    const mutation = useMutation({
       mutationFn: (data: FormType) =>
          axiosInstance.post<POSTLoginType>("/auth/login", {
@@ -45,6 +46,9 @@ export default function Login() {
             ...data,
          }),
    });
+
+   // Defining variables
+   const redirectToPrevSearchParam = searchParams.get("redirectToPrev");
 
    // Defining submit handler
    const submitHandler: SubmitHandler<FormType> = async (data) => {
@@ -59,7 +63,7 @@ export default function Login() {
          localStorage.setItem("accessToken", accessToken);
          localStorage.setItem("refreshToken", refreshToken);
 
-         router.push("/admin");
+         !redirectToPrevSearchParam ? router.push("/admin") : router.back();
       } catch {
          toast.error("There was an error while fetching your data.", {
             action: (

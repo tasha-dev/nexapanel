@@ -19,7 +19,9 @@ export default function AuthProvider({
    authOnly = true,
 }: AuthProviderProps) {
    // Defining hooks
-   const { isLoading, isLoggedIn, data } = useLoggedIn(!authOnly && false);
+   const { isLoading, isLoggedIn, data } = useLoggedIn(
+      !authOnly || authOnly === "reverse",
+   );
 
    // Conditional rendering
    if (authOnly === "reverse") {

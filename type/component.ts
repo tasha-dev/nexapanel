@@ -59,3 +59,12 @@ export interface CommentProps {
    className?: string;
    data: Comment;
 }
+
+export interface AddToCartButtonProps {
+   variant?: "ghost" | "outline" | "default";
+   className?: string;
+   product: {
+      id: number;
+      stock: number;
+   };
+}
