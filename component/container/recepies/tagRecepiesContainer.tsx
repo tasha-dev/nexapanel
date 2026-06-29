@@ -34,7 +34,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2, Pizza } from "lucide-react";
 import { useState } from "react";
 
-// Creating and exporting TagRecepiesContainer as default
+// Creating and exporting TagRecepiesContainer component as default
 export default function TagRecepiesContainer() {
    // Defining hooks
    const param = useParams<{

@@ -1,10 +1,10 @@
 // Codes by mahdi tasha
-// Forcing next.js to rende this page as client side
+// Forcing next.js to render this component as client side component
 "use client";
 
 // Importing part
 import Pagination from "@/component/pagination";
-import Recpie from "@/component/recepie";
+import Product from "@/component/product/product";
 import {
    Alert,
    AlertAction,
@@ -28,25 +28,24 @@ import {
    SelectValue,
 } from "@/component/ui/select";
 import { axiosInstance } from "@/lib/axios";
-import { GETRecipeType } from "@/type/api";
+import { GETProductType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, Pizza } from "lucide-react";
+import { Loader2, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
-// Creating and exporting RecepiesContainer component as default
-export default function RecepiesContainer() {
+// Creating and exporting ProductsContainer component as default
+export default function ProductsContainer() {
    // Defining hooks
    const [skip, setSkip] = useState(0);
    const [searchAttempt, setSearchAttempt] = useState("");
    const [search, setSearch] = useState("");
    const [order, setOrder] = useState<"desc" | "asc">("desc");
-   const recepies = useQuery<GETRecipeType>({
-      queryKey: ["recepies", skip, search, order],
+   const products = useQuery<GETProductType>({
+      queryKey: ["products", skip, order, search],
       queryFn: async () => {
          const data = await axiosInstance.get(
-            `/recipes?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
+            `/products?skip=${skip}&limit=9&order=${order}${search ? `&search?q=${search}` : ""}`,
          );
-
          return data.data;
       },
    });
@@ -54,26 +53,26 @@ export default function RecepiesContainer() {
    // Returning JSX
    return (
       <main>
-         {recepies.isPending ? (
+         {products.isPending ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
             </div>
-         ) : recepies.isError ? (
+         ) : products.isError ? (
             <Alert variant={"destructive"}>
                <AlertTitle>Error</AlertTitle>
                <AlertDescription>
-                  There was an error while trying to fetch the recepies.
+                  There was an error while trying to fetch the products.
                </AlertDescription>
                <AlertAction>
-                  <Button onClick={() => recepies.refetch()}>Try again</Button>
+                  <Button onClick={() => products.refetch()}>Try again</Button>
                </AlertAction>
             </Alert>
-         ) : !recepies.isPending && !recepies.isError && recepies.data ? (
-            recepies.data.total === 0 ? (
+         ) : !products.isPending && !products.isError && products.data ? (
+            products.data.total === 0 ? (
                <Empty>
                   <EmptyHeader>
                      <EmptyMedia>
-                        <Pizza />
+                        <ShoppingCart />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>
@@ -112,23 +111,23 @@ export default function RecepiesContainer() {
                         </SelectContent>
                      </Select>
                   </div>
-                  {recepies.isRefetching ? (
+                  {products.isRefetching ? (
                      <div className="h-[500px] flex items-center justify-center">
                         <Loader2 className="size-8 animate-spin" />
                      </div>
                   ) : (
                      <>
                         <div className="grid lg:grid-cols-3 gap-5 mb-10 align-items-center">
-                           {recepies.data.recipes.map((item, index) => (
-                              <Recpie data={item} key={index} />
+                           {products.data.products.map((item, index) => (
+                              <Product data={item} key={index} />
                            ))}
                         </div>
                      </>
                   )}
                   <Pagination
-                     total={recepies.data.total}
-                     skip={recepies.data.skip}
-                     limit={recepies.data.limit}
+                     total={products.data.total}
+                     skip={products.data.skip}
+                     limit={products.data.limit}
                      onPageChange={(page) => {
                         setSkip(page);
                      }}
