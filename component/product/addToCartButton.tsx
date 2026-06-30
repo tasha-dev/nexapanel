@@ -9,7 +9,6 @@ import { Button, buttonVariants } from "../ui/button";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import useLoggedIn from "@/hook/useLoggedIn";
 import { Skeleton } from "../ui/skeleton";
-import { useRouter } from "next/navigation";
 import cartStore from "@/store/cart";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -22,9 +21,7 @@ export default function AddToCartButton({
 }: AddToCartButtonProps) {
    // Defining hooks
    const { addProduct, cart, updateQuantity, removeProduct } = cartStore();
-
-   const { data, isLoggedIn, isLoading } = useLoggedIn();
-   const router = useRouter();
+   const { isLoggedIn, isLoading } = useLoggedIn();
 
    // Defining variables
    const productInCart = cart.find((item) => item.id === product.id);
@@ -102,7 +99,11 @@ export default function AddToCartButton({
          }
       } else {
          return (
-            <Button variant={variant} className={cn("w-full", className)}>
+            <Button
+               variant={variant}
+               className={cn("w-full", className)}
+               asChild
+            >
                <Link href="/login?redirectToPrev=true">
                   <ShoppingCart />
                   Add To cart

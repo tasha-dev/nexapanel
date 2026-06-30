@@ -12,12 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
-import {
-   Alert,
-   AlertAction,
-   AlertDescription,
-   AlertTitle,
-} from "@/component/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/component/ui/alert";
 
 // Defining data to render usefull links
 const data: {
@@ -66,7 +61,7 @@ export default function HomePage() {
          <section className="flex items-center justify-center min-h-[calc(100dvh-60px)]">
             <main className="max-w-lg p-4">
                <div className="prose prose-neutral dark:prose-invert w-full max-w-full mb-8">
-                  <h1 className="text-center mt-0 mb-3">NextPanel</h1>
+                  <h1 className="text-center mt-0 mb-3">NexaPanel</h1>
                   <p className="text-center mt-0 mb-6">
                      A modern admin dashboard built with <br /> Next.js,
                      TypeScript, and Tailwind CSS.

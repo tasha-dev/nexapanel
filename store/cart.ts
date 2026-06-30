@@ -9,53 +9,45 @@ const cartStore = create<CartStoreType>()(
    persist(
       (set) => ({
          cart: [],
-         setCart: (products) =>
-            set((state) => ({
-               cart: {
-                  ...state.cart,
-                  products,
-               },
-            })),
-         addProduct: (item) =>
-            set((state) => {
-               const exists = state.cart.find(
-                  (product) => product.id === item.id,
-               );
+         setCart: (newCart) => set({ cart: newCart }),
+         clearCart: () => set({ cart: [] }),
+         addProduct: (item) => {
+            try {
+               set((state) => {
+                  const exists = state.cart.some(
+                     (product) => product.id === item.id,
+                  );
+                  if (exists) return state;
 
-               if (exists) {
-                  return state;
-               } else {
+                  const newCart = [...state.cart, item];
+
+                  console.log(
+                     "✅ addProduct - New cart length:",
+                     newCart.length,
+                     "Items:",
+                     newCart,
+                  );
+
                   return {
                      cart: [...state.cart, item],
                   };
-               }
-            }),
-
+               });
+            } catch {
+               console.error("Product didnt add.");
+            }
+         },
          removeProduct: (id) =>
             set((state) => ({
                cart: state.cart.filter((product) => product.id !== id),
             })),
-
          updateQuantity: (id, quantity) =>
             set((state) => ({
                cart: state.cart.map((product) =>
-                  product.id === id
-                     ? {
-                          ...product,
-                          quantity,
-                       }
-                     : product,
+                  product.id === id ? { ...product, quantity } : product,
                ),
             })),
-
-         clearCart: () =>
-            set(() => ({
-               cart: [],
-            })),
       }),
-      {
-         name: "cart",
-      },
+      { name: "cart" },
    ),
 );
 
