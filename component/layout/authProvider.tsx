@@ -11,7 +11,9 @@ import { redirect } from "next/navigation";
 import { createContext } from "react";
 
 // Defining contexts
-export const MeContext = createContext<GETMeType | undefined>(undefined);
+export const MeContext = createContext<GETMeType | "401" | undefined>(
+   undefined,
+);
 
 // Creating and exporting AuthProvider component as default
 export default function AuthProvider({
@@ -33,7 +35,9 @@ export default function AuthProvider({
          );
       } else {
          if (!data && !isLoggedIn) {
-            return children;
+            return (
+               <MeContext.Provider value={"401"}>{children}</MeContext.Provider>
+            );
          } else {
             redirect("/");
          }

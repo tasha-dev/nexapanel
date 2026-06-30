@@ -9,7 +9,7 @@ import { Button, buttonVariants } from "../ui/button";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import useLoggedIn from "@/hook/useLoggedIn";
 import { Skeleton } from "../ui/skeleton";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import cartStore from "@/store/cart";
 import { toast } from "sonner";
 
@@ -25,7 +25,6 @@ export default function AddToCartButton({
 
    const { data, isLoggedIn, isLoading } = useLoggedIn();
    const router = useRouter();
-   const pathname = usePathname();
 
    // Defining variables
    const productInCart = cart.products.find((item) => item.id === product.id);
