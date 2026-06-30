@@ -48,14 +48,14 @@ export default function CartSheet() {
                <TooltipContent>Shopping cart</TooltipContent>
             </Tooltip>
          </SheetTrigger>
-         <SheetContent>
-            <SheetHeader>
+         <SheetContent className="h-dvh flex flex-col">
+            <SheetHeader className="shrink-0">
                <SheetTitle>Shopping cart</SheetTitle>
                <SheetDescription>
                   Products you want to order are shown here.
                </SheetDescription>
             </SheetHeader>
-            <div className="p-4">
+            <div className="p-4 h-full overflow-auto">
                {cart.length === 0 ? (
                   <Empty>
                      <EmptyHeader>
@@ -77,7 +77,7 @@ export default function CartSheet() {
                )}
             </div>
             {cart.length !== 0 && (
-               <SheetFooter>
+               <SheetFooter className="shrink-0">
                   <Button>Pay</Button>
                   <Button
                      variant={"outline"}
