@@ -12,6 +12,7 @@ import { Skeleton } from "../ui/skeleton";
 import { useRouter } from "next/navigation";
 import cartStore from "@/store/cart";
 import { toast } from "sonner";
+import Link from "next/link";
 
 // Creating and exporting AddToCartButton component as default
 export default function AddToCartButton({
@@ -32,58 +33,58 @@ export default function AddToCartButton({
    if (isLoading) {
       return <Skeleton className={cn("h-9 min-w-[200px]", className)} />;
    } else {
-      if (!!productInCart) {
-         return (
-            <div
-               className={cn(
-                  "min-w-[200px] flex items-center justify-center overflow-hidden",
-                  buttonVariants({
-                     size: "default",
-                     variant,
-                     className,
-                  }),
-               )}
-            >
-               <button
-                  className="h-9 flex items-center justify-center shrink-0"
-                  onClick={() => {
-                     const quantityToSet = productInCart.quantity - 1;
-
-                     quantityToSet >= 1
-                        ? updateQuantity(product.id, quantityToSet)
-                        : removeProduct(product.id);
-                  }}
+      if (isLoggedIn) {
+         if (!!productInCart) {
+            return (
+               <div
+                  className={cn(
+                     "min-w-[200px] flex items-center justify-center overflow-hidden",
+                     buttonVariants({
+                        size: "default",
+                        variant,
+                        className,
+                     }),
+                  )}
                >
-                  <Minus />
-               </button>
-               <div className="flex-1 flex items-center justify-center">
-                  <span className="block text-sm font-normal trunacte">
-                     {productInCart.quantity}
-                  </span>
+                  <button
+                     className="h-9 flex items-center justify-center shrink-0"
+                     onClick={() => {
+                        const quantityToSet = productInCart.quantity - 1;
+
+                        quantityToSet >= 1
+                           ? updateQuantity(product.id, quantityToSet)
+                           : removeProduct(product.id);
+                     }}
+                  >
+                     <Minus />
+                  </button>
+                  <div className="flex-1 flex items-center justify-center">
+                     <span className="block text-sm font-normal trunacte">
+                        {productInCart.quantity}
+                     </span>
+                  </div>
+                  <button
+                     className="h-9 flex items-center justify-center shrink-0"
+                     onClick={() => {
+                        const quantityToSet = productInCart.quantity + 1;
+
+                        quantityToSet < product.stock
+                           ? updateQuantity(product.id, quantityToSet)
+                           : toast.error(
+                                "The quantity of this product is more than the stock of it",
+                             );
+                     }}
+                  >
+                     <Plus />
+                  </button>
                </div>
-               <button
-                  className="h-9 flex items-center justify-center shrink-0"
+            );
+         } else {
+            return (
+               <Button
+                  variant={variant}
+                  className={cn("w-full", className)}
                   onClick={() => {
-                     const quantityToSet = productInCart.quantity + 1;
-
-                     quantityToSet < product.stock
-                        ? updateQuantity(product.id, quantityToSet)
-                        : toast.error(
-                             "The quantity of this product is more than the stock of it",
-                          );
-                  }}
-               >
-                  <Plus />
-               </button>
-            </div>
-         );
-      } else {
-         return (
-            <Button
-               variant={variant}
-               className={cn("w-full", className)}
-               onClick={() => {
-                  if (isLoggedIn && data) {
                      addProduct({
                         discountPercentage: product.discountPercentage,
                         id: product.id,
@@ -92,13 +93,20 @@ export default function AddToCartButton({
                         thumbnail: product.thumbnail,
                         title: product.title,
                      });
-                  } else {
-                     router.push(`/login?redirectToPrev=true`);
-                  }
-               }}
-            >
-               <ShoppingCart />
-               Add To cart
+                  }}
+               >
+                  <ShoppingCart />
+                  Add To cart
+               </Button>
+            );
+         }
+      } else {
+         return (
+            <Button variant={variant} className={cn("w-full", className)}>
+               <Link href="/login?redirectToPrev=true">
+                  <ShoppingCart />
+                  Add To cart
+               </Link>
             </Button>
          );
       }
