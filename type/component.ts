@@ -1,7 +1,7 @@
 // Codes by mahdi tasha
 // Importing part
 import { ReactNode } from "react";
-import { Comment, Post, Product, Quote, Recipe, Todo } from "./general";
+import { Cart, Comment, Post, Product, Quote, Recipe, Todo } from "./general";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -63,8 +63,10 @@ export interface CommentProps {
 export interface AddToCartButtonProps {
    variant?: "ghost" | "outline" | "default";
    className?: string;
-   product: {
-      id: number;
-      stock: number;
-   };
+   product: Product;
+}
+
+export interface CartItemProps {
+   className?: string;
+   data: Cart;
 }

@@ -77,7 +77,7 @@ export default function TagRecepiesContainer() {
             recepies.data.total === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
+                     <EmptyMedia variant={"icon"}>
                         <Pizza />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>

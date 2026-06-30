@@ -22,7 +22,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { GETCommentsType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2, MessageCircleMore } from "lucide-react";
 import { useState } from "react";
 
 // Creating and exporting CommentsContainer component as default
@@ -58,8 +58,8 @@ export default function CommentsContainer() {
             comments.data.total === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
-                        <ShoppingCart />
+                     <EmptyMedia variant={"icon"}>
+                        <MessageCircleMore />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>

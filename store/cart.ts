@@ -8,11 +8,7 @@ import { persist } from "zustand/middleware";
 const cartStore = create<CartStoreType>()(
    persist(
       (set) => ({
-         cart: {
-            userId: 0,
-            products: [],
-         },
-
+         cart: [],
          setCart: (products) =>
             set((state) => ({
                cart: {
@@ -20,82 +16,41 @@ const cartStore = create<CartStoreType>()(
                   products,
                },
             })),
-
-         setUserId: (id) =>
-            set((state) => ({
-               cart: {
-                  ...state.cart,
-                  userId: id,
-               },
-            })),
-
-         addProduct: (id) =>
+         addProduct: (item) =>
             set((state) => {
-               const exists = state.cart.products.find(
-                  (product) => product.id === id,
+               const exists = state.cart.find(
+                  (product) => product.id === item.id,
                );
 
                if (exists) {
+                  return state;
+               } else {
                   return {
-                     cart: {
-                        ...state.cart,
-                        products: state.cart.products.map((product) =>
-                           product.id === id
-                              ? {
-                                   ...product,
-                                   quantity: product.quantity + 1,
-                                }
-                              : product,
-                        ),
-                     },
+                     cart: [...state.cart, item],
                   };
                }
-
-               return {
-                  cart: {
-                     ...state.cart,
-                     products: [
-                        ...state.cart.products,
-                        {
-                           id,
-                           quantity: 1,
-                        },
-                     ],
-                  },
-               };
             }),
 
          removeProduct: (id) =>
             set((state) => ({
-               cart: {
-                  ...state.cart,
-                  products: state.cart.products.filter(
-                     (product) => product.id !== id,
-                  ),
-               },
+               cart: state.cart.filter((product) => product.id !== id),
             })),
 
          updateQuantity: (id, quantity) =>
             set((state) => ({
-               cart: {
-                  ...state.cart,
-                  products: state.cart.products.map((product) =>
-                     product.id === id
-                        ? {
-                             ...product,
-                             quantity,
-                          }
-                        : product,
-                  ),
-               },
+               cart: state.cart.map((product) =>
+                  product.id === id
+                     ? {
+                          ...product,
+                          quantity,
+                       }
+                     : product,
+               ),
             })),
 
          clearCart: () =>
-            set((state) => ({
-               cart: {
-                  userId: state.cart.userId,
-                  products: [],
-               },
+            set(() => ({
+               cart: [],
             })),
       }),
       {

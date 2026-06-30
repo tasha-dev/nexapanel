@@ -8,6 +8,7 @@ import Image from "next/image";
 import Logo from "@/image/logo.png";
 import LoginButton from "./loginButton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import CartSheet from "./cart/cartSheet";
 
 // Creating and exporting Header component as default
 export default function Header() {
@@ -26,6 +27,7 @@ export default function Header() {
             </Link>
             <div className="flex items-center justify-center gap-2">
                <ThemeToggler variant="outline" />
+               <CartSheet />
                <Button variant={"outline"} asChild className="lg:flex hidden">
                   <Link href="https://github.com/tasha-dev" target="_blank">
                      <Github />

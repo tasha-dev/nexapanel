@@ -1,22 +1,13 @@
 // Codes by mahdi tasha
+// Importing part
+import { Cart } from "./general";
+
 // Defining types for the zustand stores
 export interface CartStoreType {
-   cart: {
-      userId: number;
-      products: {
-         id: number;
-         quantity: number;
-      }[];
-   };
-   setCart: (
-      products: {
-         id: number;
-         quantity: number;
-      }[],
-   ) => void;
-   setUserId: (id: number) => void;
+   cart: Cart[];
+   setCart: (products: Cart[]) => void;
    removeProduct: (id: number) => void;
-   addProduct: (id: number) => void;
+   addProduct: (item: Cart) => void;
    updateQuantity: (id: number, quantity: number) => void;
    clearCart: () => void;
 }

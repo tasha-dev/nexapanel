@@ -21,7 +21,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { GETCategoriesType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ShoppingCart, Tag } from "lucide-react";
+import { Loader2, Tag } from "lucide-react";
 import Link from "next/link";
 
 // Creating and exporting ProductCategoriesContainer component as default
@@ -58,8 +58,8 @@ export default function ProductCategoriesContainer() {
             categories.data.length === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
-                        <ShoppingCart />
+                     <EmptyMedia variant={"icon"}>
+                        <Tag />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>

@@ -21,7 +21,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { GETPostsTags } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Hash, Loader2, Pen } from "lucide-react";
+import { Hash, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 // Creating and exporting TagsContainer component as default
@@ -56,8 +56,8 @@ export default function TagsContainer() {
             tags.data.length === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
-                        <Pen />
+                     <EmptyMedia variant={"icon"}>
+                        <Hash />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>

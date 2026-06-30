@@ -22,7 +22,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { GETTodoType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2, SquareCheckBig } from "lucide-react";
 import { useState } from "react";
 
 // Creating and exporting TodosContainer component as default
@@ -58,8 +58,8 @@ export default function TodosContainer() {
             todos.data.total === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
-                        <ShoppingCart />
+                     <EmptyMedia variant={"icon"}>
+                        <SquareCheckBig />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>

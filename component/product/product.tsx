@@ -55,10 +55,7 @@ export default function Product({ data, className }: ProductProps) {
             <AddToCartButton
                variant="outline"
                className="w-full"
-               product={{
-                  id: data.id,
-                  stock: data.stock,
-               }}
+               product={data}
             />
          </CardFooter>
       </Card>

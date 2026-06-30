@@ -20,14 +20,13 @@ export default function AddToCartButton({
    product,
 }: AddToCartButtonProps) {
    // Defining hooks
-   const { setUserId, addProduct, cart, updateQuantity, removeProduct } =
-      cartStore();
+   const { addProduct, cart, updateQuantity, removeProduct } = cartStore();
 
    const { data, isLoggedIn, isLoading } = useLoggedIn();
    const router = useRouter();
 
    // Defining variables
-   const productInCart = cart.products.find((item) => item.id === product.id);
+   const productInCart = cart.find((item) => item.id === product.id);
 
    // Conditional rendering
    if (isLoading) {
@@ -50,7 +49,7 @@ export default function AddToCartButton({
                   onClick={() => {
                      const quantityToSet = productInCart.quantity - 1;
 
-                     quantityToSet > 1
+                     quantityToSet >= 1
                         ? updateQuantity(product.id, quantityToSet)
                         : removeProduct(product.id);
                   }}
@@ -85,8 +84,14 @@ export default function AddToCartButton({
                className={cn("w-full", className)}
                onClick={() => {
                   if (isLoggedIn && data) {
-                     setUserId(data.id);
-                     addProduct(product.id);
+                     addProduct({
+                        discountPercentage: product.discountPercentage,
+                        id: product.id,
+                        price: product.price,
+                        quantity: 1,
+                        thumbnail: product.thumbnail,
+                        title: product.title,
+                     });
                   } else {
                      router.push(`/login?redirectToPrev=true`);
                   }

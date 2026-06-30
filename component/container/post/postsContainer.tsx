@@ -30,7 +30,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { GETPostsType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2, Pen } from "lucide-react";
 import { useState } from "react";
 
 // Creating and exporting PostsContainer component as default
@@ -72,8 +72,8 @@ export default function PostsContainer() {
                posts.data.total === 0 ? (
                   <Empty>
                      <EmptyHeader>
-                        <EmptyMedia>
-                           <ShoppingCart />
+                        <EmptyMedia variant={"icon"}>
+                           <Pen />
                         </EmptyMedia>
                         <EmptyTitle>Nothing to show</EmptyTitle>
                         <EmptyDescription>

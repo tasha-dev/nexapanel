@@ -71,7 +71,7 @@ export default function ProductsContainer() {
             products.data.total === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
+                     <EmptyMedia variant={"icon"}>
                         <ShoppingCart />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>

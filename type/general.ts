@@ -96,3 +96,12 @@ export interface Comment {
       fullName: string;
    };
 }
+
+export interface Cart {
+   id: number;
+   title: string;
+   price: number;
+   quantity: number;
+   discountPercentage: number;
+   thumbnail: string;
+}

@@ -22,7 +22,7 @@ import {
 import { axiosInstance } from "@/lib/axios";
 import { GETQuoteType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2, LucideQuote } from "lucide-react";
 import { useState } from "react";
 
 // Creating and exporting QuotesContainer component as default
@@ -58,8 +58,8 @@ export default function QuotesContainer() {
             quotes.data.total === 0 ? (
                <Empty>
                   <EmptyHeader>
-                     <EmptyMedia>
-                        <ShoppingCart />
+                     <EmptyMedia variant={"icon"}>
+                        <LucideQuote />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>
