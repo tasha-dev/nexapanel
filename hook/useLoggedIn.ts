@@ -5,24 +5,22 @@ import { GETMeType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
 
 // Creating and exporting useLoggedIn hook as default
-export default function useLoggedIn(enabled: boolean = true) {
+export default function useLoggedIn() {
    // Defining hooks
-   const { isLoading, isError, data, isFetched } = useQuery<GETMeType>({
+   const { isPending, isError, data } = useQuery<GETMeType>({
       queryKey: ["me"],
-      enabled,
-      refetchInterval: Infinity,
-      gcTime: Infinity,
       queryFn: async () => {
          const { data } = await axiosInstance.get("/auth/me");
          return data;
       },
+      retry: false,
+      staleTime: Infinity,
    });
 
    // Returning part
    return {
-      isLoading: isLoading,
-      isLoggedIn: !!data && !isError,
-      data: data,
-      isFetched,
+      isLoading: isPending,
+      isLoggedIn: Boolean(data) && !isError,
+      data,
    };
 }
