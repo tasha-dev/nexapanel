@@ -19,7 +19,7 @@ import {
    TooltipTrigger,
 } from "@/component/ui/tooltip";
 import { Button } from "@/component/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { Loader2, ShoppingCart, Trash } from "lucide-react";
 import {
    Empty,
    EmptyDescription,
@@ -29,16 +29,16 @@ import {
 } from "@/component/ui/empty";
 import CartItem from "./cartItem";
 import { toast } from "sonner";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
-import { MeContext } from "../layout/authProvider";
+import useLoggedIn from "@/hook/useLoggedIn";
 
 // Creating and exporting CartSheet component as default
 export default function CartSheet() {
    // Defining hooks
    const { cart, clearCart } = cartStore();
-   const userInfo = useContext(MeContext);
+   const { data, isLoggedIn } = useLoggedIn();
    const cartMutation = useMutation({
       mutationFn: ({
          userId,
@@ -97,8 +97,11 @@ export default function CartSheet() {
                   </Empty>
                ) : (
                   <div className="space-y-4">
-                     {cart.map((item) => (
-                        <CartItem data={item} />
+                     {cart.map((item, index) => (
+                        <CartItem
+                           data={item}
+                           key={`cart-${index}-${item.title}-${item.id}`}
+                        />
                      ))}
                   </div>
                )}
@@ -112,9 +115,10 @@ export default function CartSheet() {
                      </span>
                   </p>
                   <Button
+                     disabled={cartMutation.isPending}
                      onClick={async () => {
-                        try {
-                           if (userInfo && userInfo !== "401") {
+                        if (isLoggedIn && data) {
+                           try {
                               const mappedArray = cart.map((item) => {
                                  return {
                                     id: item.id,
@@ -124,29 +128,35 @@ export default function CartSheet() {
 
                               await cartMutation.mutateAsync({
                                  products: mappedArray,
-                                 userId: userInfo.id,
+                                 userId: data.id,
                               });
 
                               toast.success(
                                  "The cart has been successfully added.",
                               );
+                           } catch {
+                              toast.error(
+                                 "The're was an issue while trying to add cart.",
+                              );
                            }
-                        } catch {
-                           toast.error(
-                              "The're was an issue while trying to add cart.",
-                           );
                         }
                      }}
                   >
-                     Pay
+                     {cartMutation.isPending ? (
+                        <Loader2 className="animate-spin" />
+                     ) : (
+                        <ShoppingCart />
+                     )}
+                     Add
                   </Button>
                   <Button
-                     variant={"outline"}
+                     variant={"destructive"}
                      onClick={() => {
                         clearCart();
                         toast.success("Your cart is empty now.");
                      }}
                   >
+                     <Trash />
                      Clear Cart
                   </Button>
                </SheetFooter>
