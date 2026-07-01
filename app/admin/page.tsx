@@ -1,9 +1,15 @@
 // Codes by mahdi tasha
-// Forcing next.js to render this page as client side
-"use client";
+// Importing part
+import type { Metadata } from "next";
+import AdminLayout from "@/component/layout/adminLayout";
+
+// Defining metadata
+export const metadata: Metadata = {
+   title: "Dashboard",
+};
 
 // Creating and exporting Admin home page as default
 export default function AdminPage() {
    // Returning JSX
-   return <div>HI</div>;
+   return <AdminLayout>HI</AdminLayout>;
 }

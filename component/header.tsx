@@ -14,7 +14,7 @@ import CartSheet from "./cart/cartSheet";
 export default function Header() {
    // Returning JSX
    return (
-      <header className="border-b border-b-foreground/10">
+      <header className="border-b border-b-foreground/10 w-full shrink-0">
          <div className="max-w-4xl flex items-center justify-between mx-auto h-14 px-4">
             <Link href="/">
                <Image

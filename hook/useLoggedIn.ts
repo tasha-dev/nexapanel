@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 // Creating and exporting useLoggedIn hook as default
 export default function useLoggedIn(enabled: boolean = true) {
    // Defining hooks
-   const { isLoading, isError, data } = useQuery<GETMeType>({
+   const { isLoading, isError, data, isFetched } = useQuery<GETMeType>({
       queryKey: ["me"],
       enabled,
       refetchInterval: Infinity,
@@ -23,5 +23,6 @@ export default function useLoggedIn(enabled: boolean = true) {
       isLoading: isLoading,
       isLoggedIn: !!data && !isError,
       data: data,
+      isFetched,
    };
 }

@@ -7,8 +7,8 @@ import useLoggedIn from "@/hook/useLoggedIn";
 import { GETMeType } from "@/type/api";
 import { AuthProviderProps } from "@/type/component";
 import { Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
-import { createContext } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useEffect } from "react";
 
 // Defining contexts
 export const MeContext = createContext<GETMeType | "401" | undefined>(
@@ -21,44 +21,53 @@ export default function AuthProvider({
    authOnly = true,
 }: AuthProviderProps) {
    // Defining hooks
-   const { isLoading, isLoggedIn, data } = useLoggedIn(
+   const router = useRouter();
+
+   const { isLoading, isLoggedIn, data, isFetched } = useLoggedIn(
       !authOnly || authOnly === "reverse",
    );
 
-   // Conditional rendering
-   if (authOnly === "reverse") {
-      if (isLoading) {
-         return (
-            <section className="h-dvh flex items-center justify-center">
-               <Loader2 className="size-8 animate-spin" />
-            </section>
-         );
-      } else {
-         if (!data && !isLoggedIn) {
-            return (
-               <MeContext.Provider value={"401"}>{children}</MeContext.Provider>
-            );
-         } else {
-            redirect("/");
-         }
-      }
-   } else if (authOnly) {
-      if (isLoading) {
-         return (
-            <section className="h-dvh flex items-center justify-center">
-               <Loader2 className="size-8 animate-spin" />
-            </section>
-         );
-      } else {
+   // Using useEffect to handle redirects
+   useEffect(() => {
+      if (!isFetched || isLoading) return;
+
+      if (authOnly === "reverse") {
          if (data && isLoggedIn) {
-            return (
-               <MeContext.Provider value={data}>{children}</MeContext.Provider>
-            );
-         } else {
-            redirect("/");
+            router.replace("/");
+         }
+      } else {
+         if (!data || !isLoggedIn) {
+            router.replace("/");
          }
       }
-   } else {
+   }, [isFetched, isLoading, data, isLoggedIn, authOnly, router]);
+
+   // Conditional rendering
+   if (!authOnly) {
       return children;
    }
+
+   if (isLoading || !isFetched) {
+      return (
+         <section className="h-dvh flex items-center justify-center">
+            <Loader2 className="size-8 animate-spin" />
+         </section>
+      );
+   }
+
+   if (authOnly === "reverse") {
+      if (!data && !isLoggedIn) {
+         return (
+            <MeContext.Provider value={"401"}>{children}</MeContext.Provider>
+         );
+      }
+
+      return null;
+   }
+
+   if (data && isLoggedIn) {
+      return <MeContext.Provider value={data}>{children}</MeContext.Provider>;
+   }
+
+   return null;
 }

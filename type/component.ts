@@ -70,3 +70,8 @@ export interface CartItemProps {
    className?: string;
    data: Cart;
 }
+
+export interface AdminLayoutProps {
+   children: ReactNode;
+   className?: string;
+}
