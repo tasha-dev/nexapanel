@@ -23,7 +23,11 @@ export const navbarContext = createContext<
 >(undefined);
 
 // Creating and exporting AdminLayout component as default
-export default function AdminLayout({ children, className }: AdminLayoutProps) {
+export default function AdminLayout({
+   children,
+   className,
+   title,
+}: AdminLayoutProps) {
    // Defining hooks
    const [navbarOpened, setNavbarOpened] = useState<boolean>(false);
 
@@ -43,9 +47,9 @@ export default function AdminLayout({ children, className }: AdminLayoutProps) {
                )}
             >
                <Header />
-               <div className="h-full overflow-hidden grid grid-cols-5 w-full">
+               <article className="h-full overflow-hidden lg:grid lg:grid-cols-5 w-full">
                   <Navbar />
-                  <div className="max-w-4xl p-4 mx-auto h-full w-full overflow-hidden col-span-4">
+                  <section className="max-w-4xl p-4 mx-auto h-full w-full overflow-auto lg:col-span-4">
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <Button
@@ -60,9 +64,12 @@ export default function AdminLayout({ children, className }: AdminLayoutProps) {
                            Open/Close navigation bar.
                         </TooltipContent>
                      </Tooltip>
-                     {children}
-                  </div>
-               </div>
+                     <main className="prose prose-neutral dark:prose-invert w-full max-w-full prose-a:no-underline">
+                        <h1>{title}</h1>
+                        {children}
+                     </main>
+                  </section>
+               </article>
             </div>
          </navbarContext.Provider>
       </AuthProvider>

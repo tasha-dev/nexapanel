@@ -1,5 +1,6 @@
 // Codes by mahdi tasha
 // Importing part
+import ApiProviderNote from "@/component/apiProviderNote";
 import Header from "@/component/header";
 import { Button } from "@/component/ui/button";
 import {
@@ -12,7 +13,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/component/ui/alert";
 
 // Defining data to render usefull links
 const data: {
@@ -77,14 +77,7 @@ export default function HomePage() {
                      ))}
                   </div>
                </div>
-               <Alert>
-                  <AlertTitle>Warning</AlertTitle>
-                  <AlertDescription>
-                     The POST, Patch, Put and Delete methods wont work because
-                     of the rules of{" "}
-                     <Link href="https://dummyjson.com">Api's</Link> Provider
-                  </AlertDescription>
-               </Alert>
+               <ApiProviderNote />
             </main>
          </section>
       </>

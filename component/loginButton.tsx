@@ -38,7 +38,7 @@ export default function LoginButton() {
                <Tooltip>
                   <TooltipTrigger>
                      <Button asChild className="lg:hidden flex" size={"icon"}>
-                        <Link href={isLoggedIn ? "/dashboard" : "/login"}>
+                        <Link href={isLoggedIn ? "/admin" : "/login"}>
                            <LogIn />
                         </Link>
                      </Button>
