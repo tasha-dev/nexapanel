@@ -168,3 +168,10 @@ export interface GETCommentsType {
    skip: number;
    limit: number;
 }
+
+export interface GETUsersType {
+   users: GETMeType[];
+   total: number;
+   skip: number;
+   limit: number;
+}

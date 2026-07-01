@@ -14,6 +14,7 @@ import {
    Pizza,
    Quote,
    ShoppingCart,
+   User,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -24,6 +25,16 @@ const data: {
    label: string;
    icon: ReactNode;
 }[] = [
+   {
+      href: "/admin/users",
+      label: "Users",
+      icon: <User />,
+   },
+   {
+      href: "/admin/carts",
+      label: "Carts",
+      icon: <ShoppingCart />,
+   },
    {
       href: "/admin/products",
       label: "Products",

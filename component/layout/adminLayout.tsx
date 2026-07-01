@@ -65,7 +65,7 @@ export default function AdminLayout({
                         </TooltipContent>
                      </Tooltip>
                      <main className="prose prose-neutral dark:prose-invert w-full max-w-full prose-a:no-underline">
-                        <h1>{title}</h1>
+                        <h1 className="block truncate">{title}</h1>
                         {children}
                      </main>
                   </section>
