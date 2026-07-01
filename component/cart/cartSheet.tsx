@@ -30,15 +30,18 @@ import {
 import CartItem from "./cartItem";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
 import useLoggedIn from "@/hook/useLoggedIn";
+import { GETCart } from "@/type/api";
+import { Cart } from "@/type/general";
 
 // Creating and exporting CartSheet component as default
 export default function CartSheet() {
    // Defining hooks
-   const { cart, clearCart } = cartStore();
+   const { cart, clearCart, setCart } = cartStore();
    const { data, isLoggedIn } = useLoggedIn();
+
    const cartMutation = useMutation({
       mutationFn: ({
          userId,
@@ -52,9 +55,50 @@ export default function CartSheet() {
       }) => axiosInstance.post("/carts/add", { userId, products }),
    });
 
+   const userCartQuery = useQuery<GETCart>({
+      queryKey: ["my-cart", data?.id],
+      queryFn: async () => {
+         const response = await axiosInstance.get(`/carts/user/${data!.id}`);
+         return response.data;
+      },
+      enabled: Boolean(data?.id && isLoggedIn),
+      refetchInterval: Infinity,
+      gcTime: Infinity,
+   });
+
+   // Using useEffect to set cart items when user auth check is happened
+   useEffect(() => {
+      if (
+         data &&
+         !userCartQuery.isLoading &&
+         !userCartQuery.isError &&
+         userCartQuery.data
+      ) {
+         const products = userCartQuery.data.carts?.[0]?.products ?? [];
+         const mappedProducts: Cart[] = products.map((item) => {
+            return {
+               discountPercentage: item.discountPercentage,
+               id: item.id,
+               price: item.price,
+               quantity: item.quantity,
+               thumbnail: item.thumbnail,
+               title: item.title,
+            };
+         });
+
+         setCart(mappedProducts);
+      }
+   }, [
+      userCartQuery.isLoading,
+      userCartQuery.isError,
+      userCartQuery.data,
+      data,
+      setCart,
+   ]);
+
    // Using useEffect to debug the issue of zustand
    useEffect(() => {
-      console.log(`✅ CartSheet : Cart : ${cart}, CartLenght :${cart.length}`);
+      // console.log(`✅ CartSheet : Cart : ${cart}, CartLenght :${cart.length}`);
    }, [cart]);
 
    // Defining variables
@@ -75,6 +119,7 @@ export default function CartSheet() {
                <TooltipContent>Shopping cart</TooltipContent>
             </Tooltip>
          </SheetTrigger>
+
          <SheetContent className="h-dvh flex flex-col">
             <SheetHeader className="shrink-0">
                <SheetTitle>Shopping cart</SheetTitle>
@@ -82,6 +127,7 @@ export default function CartSheet() {
                   Products you want to order are shown here.
                </SheetDescription>
             </SheetHeader>
+
             <div className="p-4 h-full overflow-auto">
                {cart.length === 0 ? (
                   <Empty>
@@ -89,7 +135,9 @@ export default function CartSheet() {
                         <EmptyMedia variant={"icon"}>
                            <ShoppingCart />
                         </EmptyMedia>
+
                         <EmptyTitle>Nothing to show</EmptyTitle>
+
                         <EmptyDescription>
                            The list is empty and there is nothing to show !
                         </EmptyDescription>
@@ -106,6 +154,7 @@ export default function CartSheet() {
                   </div>
                )}
             </div>
+
             {cart.length !== 0 && (
                <SheetFooter className="shrink-0">
                   <p className="cn-font-heading text-base font-medium text-foreground">
@@ -114,6 +163,7 @@ export default function CartSheet() {
                         {total.toFixed(2)} $
                      </span>
                   </p>
+
                   <Button
                      disabled={cartMutation.isPending}
                      onClick={async () => {
@@ -136,7 +186,7 @@ export default function CartSheet() {
                               );
                            } catch {
                               toast.error(
-                                 "The're was an issue while trying to add cart.",
+                                 "There was an issue while trying to add cart.",
                               );
                            }
                         }
@@ -149,6 +199,7 @@ export default function CartSheet() {
                      )}
                      Add
                   </Button>
+
                   <Button
                      variant={"destructive"}
                      onClick={() => {

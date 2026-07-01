@@ -11,6 +11,7 @@ export default function useLoggedIn(enabled: boolean = true) {
       queryKey: ["me"],
       enabled,
       refetchInterval: Infinity,
+      gcTime: Infinity,
       queryFn: async () => {
          const { data } = await axiosInstance.get("/auth/me");
          return data;
@@ -19,7 +20,7 @@ export default function useLoggedIn(enabled: boolean = true) {
 
    // Returning part
    return {
-      isLoading,
+      isLoading: isLoading,
       isLoggedIn: !!data && !isError,
       data: data,
    };

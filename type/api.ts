@@ -88,22 +88,27 @@ export type GETCategoriesType = {
 }[];
 
 export interface GETCart {
-   id: number;
-   products: {
+   carts: {
       id: number;
-      title: string;
-      price: number;
-      quantity: number;
+      products: {
+         id: number;
+         title: string;
+         price: number;
+         quantity: number;
+         total: number;
+         discountPercentage: number;
+         discountedTotal: number;
+         thumbnail: string;
+      }[];
       total: number;
-      discountPercentage: number;
       discountedTotal: number;
-      thumbnail: string;
+      userId: number;
+      totalProducts: number;
+      totalQuantity: number;
    }[];
    total: number;
-   discountedTotal: number;
-   userId: number;
-   totalProducts: number;
-   totalQuantity: number;
+   skip: number;
+   limit: number;
 }
 
 export interface POSTLoginType {

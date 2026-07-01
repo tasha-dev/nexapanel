@@ -21,15 +21,16 @@ const cartStore = create<CartStoreType>()(
 
                   const newCart = [...state.cart, item];
 
-                  console.log(
-                     "✅ addProduct - New cart length:",
-                     newCart.length,
-                     "Items:",
-                     newCart,
-                  );
+                  // For Test
+                  // console.log(
+                  //    "✅ addProduct - New cart length:",
+                  //    newCart.length,
+                  //    "Items:",
+                  //    newCart,
+                  // );
 
                   return {
-                     cart: [...state.cart, item],
+                     cart: newCart,
                   };
                });
             } catch {
