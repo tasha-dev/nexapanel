@@ -19,13 +19,54 @@ export const loginFormSchema = z.object({
 });
 
 export const UserFormSchema = z.object({
-   firstName: z.string().min(1),
-   lastName: z.string().min(1),
-   dateOfBirth: z.string(),
-   gender: z.enum(["male", "female"]),
-   email: z.email(),
-   phone: z.string().min(1),
-   role: z.enum(["admin", "user", "moderator"]),
-   country: z.string(),
-   address: z.string(),
+   firstName: z
+      .string({
+         message: "Please fill this field.",
+      })
+      .min(2, {
+         message: "This field has to be at least, 2 characters long.",
+      })
+      .max(20, {
+         message: "This field has to be, 20 characters long at most.",
+      }),
+   lastName: z
+      .string({
+         message: "Please fill this field.",
+      })
+      .min(2, {
+         message: "This field has to be at least, 2 characters long.",
+      })
+      .max(20, {
+         message: "This field has to be, 20 characters long at most.",
+      }),
+   dateOfBirth: z.string({
+      message: "Please fill this field.",
+   }),
+   gender: z.enum(["male", "female"], {
+      message: "Please fill this field.",
+   }),
+   email: z.email({
+      message: "Please fill this field.",
+   }),
+   phone: z
+      .string({
+         message: "Please fill this field.",
+      })
+      .regex(/^\+?[0-9\s\-()]{10,20}$/, "Invalid phone number"),
+   role: z.enum(["admin", "user", "moderator"], {
+      message: "Please fill this field.",
+   }),
+   country: z.string({
+      message: "Please fill this field.",
+   }),
+   address: z
+      .string({
+         message: "Please fill this field.",
+      })
+      .min(10, {
+         message: "This field has to be at least, 10 characters long.",
+      })
+      .max(256, {
+         message: "This field has to be, 256 characters long at most.",
+      }),
 });

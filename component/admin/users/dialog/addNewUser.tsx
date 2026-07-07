@@ -32,6 +32,10 @@ import {
 import countries from "@/data/countries.json";
 import { DialogProps } from "@/type/component";
 import { Textarea } from "@/component/ui/textarea";
+import { useMutation } from "@tanstack/react-query";
+import { axiosInstance } from "@/lib/axios";
+import { toast } from "sonner";
+import { useState } from "react";
 
 // Defining form type
 type formType = z.infer<typeof formSchema>;
@@ -39,6 +43,7 @@ type formType = z.infer<typeof formSchema>;
 // Creating and exporting AddNewUser Dialog as default
 export default function AddNewUser({ refetch }: DialogProps) {
    // Defining hooks
+   const [open, setOpen] = useState(false);
    const form = useForm<formType>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -46,15 +51,36 @@ export default function AddNewUser({ refetch }: DialogProps) {
       },
    });
 
+   const mutation = useMutation({
+      mutationFn: async ({ data }: { data: formType }) => {
+         const response = await axiosInstance.post("/users/add", data);
+         return response.data;
+      },
+   });
+
    // Defining submit handler
    const submitHandler: SubmitHandler<formType> = async (data) => {
-      refetch?.();
-      console.log(data);
+      try {
+         await mutation.mutateAsync({ data });
+         refetch?.();
+
+         toast.success("User added successfully");
+         setOpen(false);
+      } catch {
+         toast.error("There was an error while trying to create new user.");
+      }
    };
 
    // Returning JSX
    return (
-      <Dialog>
+      <Dialog
+         open={open}
+         onOpenChange={(open) => {
+            if (!form.formState.isSubmitting) {
+               setOpen(open);
+            }
+         }}
+      >
          <DialogTrigger asChild>
             <Button className="shrink-0" variant={"secondary"}>
                <Plus />
@@ -126,7 +152,9 @@ export default function AddNewUser({ refetch }: DialogProps) {
                            </FieldLabel>
                            <DatePicker
                               disableAfterToday
-                              onValueChange={field.onChange}
+                              onValueChange={(value) =>
+                                 field.onChange(new Date(value).toISOString())
+                              }
                               aria-invalid={fieldState.invalid}
                               value={new Date(field.value)}
                            />
@@ -290,7 +318,11 @@ export default function AddNewUser({ refetch }: DialogProps) {
                      Submit
                   </Button>
                   <DialogClose asChild>
-                     <Button type="button" variant="outline">
+                     <Button
+                        type="button"
+                        variant="outline"
+                        disabled={form.formState.isSubmitting}
+                     >
                         Cancel
                      </Button>
                   </DialogClose>
