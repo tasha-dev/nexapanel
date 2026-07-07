@@ -66,6 +66,7 @@ export default function AddNewUser({ refetch }: DialogProps) {
 
          toast.success("User added successfully");
          setOpen(false);
+         form.reset();
       } catch {
          toast.error("There was an error while trying to create new user.");
       }
@@ -152,11 +153,13 @@ export default function AddNewUser({ refetch }: DialogProps) {
                            </FieldLabel>
                            <DatePicker
                               disableAfterToday
-                              onValueChange={(value) =>
-                                 field.onChange(new Date(value).toISOString())
-                              }
                               aria-invalid={fieldState.invalid}
-                              value={new Date(field.value)}
+                              value={
+                                 field.value ? new Date(field.value) : undefined
+                              }
+                              onValueChange={(date) =>
+                                 field.onChange(date ? date.toISOString() : "")
+                              }
                            />
                            {fieldState.invalid && (
                               <FieldError errors={[fieldState.error]} />

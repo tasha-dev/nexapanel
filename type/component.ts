@@ -2,6 +2,7 @@
 // Importing part
 import { ReactNode } from "react";
 import { Cart, Comment, Post, Product, Quote, Recipe, Todo } from "./general";
+import { GETMeType } from "./api";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -91,4 +92,11 @@ export interface DatePickerProps {
 
 export interface DialogProps {
    refetch?: () => void;
+}
+
+export interface EditUserDialogProps {
+   info: GETMeType;
+   refetch: () => void;
+   open: boolean;
+   onOpenChange: (open: boolean) => void;
 }

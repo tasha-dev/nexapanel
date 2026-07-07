@@ -4,9 +4,17 @@
 
 // Importing part
 import { axiosInstance } from "@/lib/axios";
-import { GETUsersType } from "@/type/api";
+import { GETMeType, GETUsersType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Ellipsis, Loader2, LucideQuote, Mars, Venus } from "lucide-react";
+import {
+   Delete,
+   Ellipsis,
+   Loader2,
+   LucideQuote,
+   Mars,
+   Pen,
+   Venus,
+} from "lucide-react";
 import {
    Alert,
    AlertAction,
@@ -43,10 +51,14 @@ import moment from "moment";
 import { Input } from "@/component/ui/input";
 import { MeContext } from "@/component/layout/authProvider";
 import AddNewUser from "./dialog/addNewUser";
+import EditUser from "./dialog/editUser";
 
 // Creating and exporting UsersContainer component as default
 export default function UsersContainer() {
    // Defining hooks
+   const [userInfoEdit, setUserInfoEdit] = useState<GETMeType | undefined>(
+      undefined,
+   );
    const [skip, setSkip] = useState(0);
    const [searchAttempt, setSearchAttempt] = useState("");
    const [search, setSearch] = useState("");
@@ -55,7 +67,7 @@ export default function UsersContainer() {
       queryKey: ["users", skip, search],
       queryFn: async () => {
          const response = await axiosInstance.get(
-            `/users?limit=10&skip=${skip}${search ? `&search?q=${search}` : ""}`,
+            `/users?limit=20&skip=${skip}${search ? `&search?q=${search}` : ""}`,
          );
          return response.data;
       },
@@ -64,6 +76,16 @@ export default function UsersContainer() {
    // Returning JSX
    return (
       <>
+         {userInfoEdit && (
+            <EditUser
+               info={userInfoEdit}
+               open
+               refetch={usersQuery.refetch}
+               onOpenChange={(open) => {
+                  if (!open) setUserInfoEdit(undefined);
+               }}
+            />
+         )}
          {usersQuery.isPending ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
@@ -94,8 +116,8 @@ export default function UsersContainer() {
                   </EmptyHeader>
                </Empty>
             ) : (
-               <>
-                  <div className="flex gap-3 mb-5">
+               <div className="space-y-4">
+                  <div className="flex gap-3">
                      <Input
                         className="flex-1"
                         placeholder="Search term"
@@ -117,7 +139,7 @@ export default function UsersContainer() {
                         <Loader2 className="size-8 animate-spin" />
                      </div>
                   ) : (
-                     <Table className="mb-10">
+                     <Table>
                         <TableHeader>
                            <TableRow>
                               <TableCell>Id</TableCell>
@@ -213,10 +235,16 @@ export default function UsersContainer() {
                                           </Button>
                                        </DropdownMenuTrigger>
                                        <DropdownMenuContent align="end">
-                                          <DropdownMenuItem>
+                                          <DropdownMenuItem
+                                             onSelect={() =>
+                                                setUserInfoEdit(item)
+                                             }
+                                          >
+                                             <Pen />
                                              Edit user
                                           </DropdownMenuItem>
                                           <DropdownMenuItem variant="destructive">
+                                             <Delete />
                                              Delete user
                                           </DropdownMenuItem>
                                        </DropdownMenuContent>
@@ -235,7 +263,7 @@ export default function UsersContainer() {
                         setSkip(page);
                      }}
                   />
-               </>
+               </div>
             )
          ) : (
             false
