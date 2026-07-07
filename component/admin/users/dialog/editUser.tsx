@@ -97,11 +97,11 @@ export default function EditUser({
          <DialogPortal>
             <DialogContent>
                <DialogHeader>
-                  <DialogTitle>Update User</DialogTitle>
+                  <DialogTitle>Edit User</DialogTitle>
                   <DialogDescription>
-                     Fill in the required information to edit the user account.
-                     Provide accurate personal, contact, company, and account
-                     details before submitting.
+                     Update the user's personal, contact, company, and account
+                     information. Review the changes carefully before saving to
+                     ensure all details are accurate and up to date.
                   </DialogDescription>
                </DialogHeader>
                <form action="#" onSubmit={form.handleSubmit(submitHandler)}>

@@ -52,6 +52,7 @@ import { Input } from "@/component/ui/input";
 import { MeContext } from "@/component/layout/authProvider";
 import AddNewUser from "./dialog/addNewUser";
 import EditUser from "./dialog/editUser";
+import DeleteUser from "./dialog/deleteUser";
 
 // Creating and exporting UsersContainer component as default
 export default function UsersContainer() {
@@ -59,6 +60,11 @@ export default function UsersContainer() {
    const [userInfoEdit, setUserInfoEdit] = useState<GETMeType | undefined>(
       undefined,
    );
+
+   const [userDeleteID, setUserDeleteID] = useState<number | undefined>(
+      undefined,
+   );
+
    const [skip, setSkip] = useState(0);
    const [searchAttempt, setSearchAttempt] = useState("");
    const [search, setSearch] = useState("");
@@ -83,6 +89,16 @@ export default function UsersContainer() {
                refetch={usersQuery.refetch}
                onOpenChange={(open) => {
                   if (!open) setUserInfoEdit(undefined);
+               }}
+            />
+         )}
+         {userDeleteID && (
+            <DeleteUser
+               id={userDeleteID}
+               open
+               refetch={usersQuery.refetch}
+               onOpenChange={(open) => {
+                  if (!open) setUserDeleteID(undefined);
                }}
             />
          )}
@@ -236,14 +252,19 @@ export default function UsersContainer() {
                                        </DropdownMenuTrigger>
                                        <DropdownMenuContent align="end">
                                           <DropdownMenuItem
-                                             onSelect={() =>
-                                                setUserInfoEdit(item)
-                                             }
+                                             onSelect={() => {
+                                                setUserInfoEdit(item);
+                                             }}
                                           >
                                              <Pen />
                                              Edit user
                                           </DropdownMenuItem>
-                                          <DropdownMenuItem variant="destructive">
+                                          <DropdownMenuItem
+                                             variant="destructive"
+                                             onSelect={() => {
+                                                setUserDeleteID(item.id);
+                                             }}
+                                          >
                                              <Delete />
                                              Delete user
                                           </DropdownMenuItem>

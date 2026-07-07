@@ -100,3 +100,10 @@ export interface EditUserDialogProps {
    open: boolean;
    onOpenChange: (open: boolean) => void;
 }
+
+export interface DeleteUserDialogProps {
+   id: number;
+   refetch: () => void;
+   open: boolean;
+   onOpenChange: (open: boolean) => void;
+}
