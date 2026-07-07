@@ -71,7 +71,7 @@ export default function RootLayout({ children }: ChildrenOnlyProps) {
             <html suppressHydrationWarning lang="en">
                <body
                   className={cn(
-                     "overflow-x-hidden overflow-y-auto bg-background text-foreground",
+                     "bg-background text-foreground",
                      InterFont.className,
                   )}
                >

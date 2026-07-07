@@ -38,7 +38,7 @@ export default function AdminPage() {
             </EmptyHeader>
             <EmptyContent>
                <Button asChild>
-                  <Link href="/admin/products">
+                  <Link href="/admin/users">
                      <LayoutDashboard />
                      Get Started
                   </Link>

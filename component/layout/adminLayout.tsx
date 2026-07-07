@@ -8,7 +8,7 @@ import AuthProvider from "./authProvider";
 import { cn } from "@/lib/util";
 import Header from "../header";
 import Navbar from "../admin/navbar";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { AlignLeftIcon } from "lucide-react";
@@ -31,6 +31,15 @@ export default function AdminLayout({
    // Defining hooks
    const [navbarOpened, setNavbarOpened] = useState<boolean>(false);
 
+   useEffect(() => {
+      const body = document.body;
+
+      body.style.overflow = "hidden";
+      return () => {
+         body.style.overflow = "auto";
+      };
+   }, []);
+
    // Returning JSX
    return (
       <AuthProvider authOnly>
@@ -49,7 +58,7 @@ export default function AdminLayout({
                <Header />
                <article className="h-full overflow-hidden lg:grid lg:grid-cols-5 w-full">
                   <Navbar />
-                  <section className="max-w-4xl p-4 mx-auto h-full w-full overflow-auto lg:col-span-4">
+                  <section className="p-4 h-full w-full overflow-auto lg:col-span-4">
                      <Tooltip>
                         <TooltipTrigger asChild>
                            <Button
@@ -64,8 +73,10 @@ export default function AdminLayout({
                            Open/Close navigation bar.
                         </TooltipContent>
                      </Tooltip>
-                     <main className="prose prose-neutral dark:prose-invert w-full max-w-full prose-a:no-underline">
-                        <h1 className="block truncate">{title}</h1>
+                     <main>
+                        <div className="prose prose-neutral dark:prose-invert w-full max-w-full prose-a:no-underline mb-6">
+                           <h1 className="block truncate">{title}</h1>
+                        </div>
                         {children}
                      </main>
                   </section>

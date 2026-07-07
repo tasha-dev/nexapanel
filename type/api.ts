@@ -71,7 +71,7 @@ export interface GETMeType {
       wallet: string;
       network: string;
    };
-   role: "admin" | "user";
+   role: "admin" | "user" | "moderator";
 }
 
 export interface GETProductType {

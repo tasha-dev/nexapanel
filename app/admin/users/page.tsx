@@ -2,7 +2,7 @@
 // Importing part
 import type { Metadata } from "next";
 import AdminLayout from "@/component/layout/adminLayout";
-import UsersContainer from "@/component/admin/usersContainer";
+import UsersContainer from "@/component/admin/users/usersContainer";
 
 // Defining metadata
 export const metadata: Metadata = {
