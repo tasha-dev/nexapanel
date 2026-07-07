@@ -110,7 +110,7 @@ export default function UsersContainer() {
                      >
                         Search
                      </Button>
-                     <AddNewUser />
+                     <AddNewUser refetch={usersQuery.refetch} />
                   </div>
                   {usersQuery.isRefetching ? (
                      <div className="h-[500px] flex items-center justify-center">

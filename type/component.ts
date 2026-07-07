@@ -80,3 +80,15 @@ export interface AdminLayoutProps {
 export interface ClassOnlytProps {
    className?: string;
 }
+
+export interface DatePickerProps {
+   className?: string;
+   value?: Date;
+   onValueChange?: (date?: Date) => void;
+   disableAfterToday?: boolean;
+   "aria-invalid"?: boolean;
+}
+
+export interface DialogProps {
+   refetch?: () => void;
+}
