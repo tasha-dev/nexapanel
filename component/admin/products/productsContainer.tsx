@@ -49,6 +49,7 @@ import Image from "next/image";
 import { formatCurrency } from "@/lib/util";
 import AddNewProduct from "./dialog/addProduct";
 import EditProduct from "./dialog/editProduct";
+import DeleteProduct from "./dialog/deleteProduct";
 
 // Defining context
 export const categoriesContext = createContext<GETCategoriesType>([]);
@@ -94,7 +95,18 @@ export default function ProductsContainer() {
    // Returning JSX
    return (
       <>
-         {productDeleteID && "DELETE"}
+         {productDeleteID && (
+            <DeleteProduct
+               id={productDeleteID}
+               open
+               refetch={productsQuery.refetch}
+               onOpenChange={(open) => {
+                  if (!open) {
+                     setProductDeleteID(undefined);
+                  }
+               }}
+            />
+         )}
          {isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />

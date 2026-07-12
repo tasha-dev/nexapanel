@@ -112,9 +112,8 @@ export interface EditCartDialogProps extends DialogProps {
    };
 }
 
-export interface DeleteCartDialogProps extends DialogProps {
-   id: number;
-}
+export type DeleteCartDialogProps = DeleteUserDialogProps;
+export type DeleteProductDialogProps = DeleteUserDialogProps;
 
 export interface EditProductDialogProps extends DialogProps {
    data: Product;
