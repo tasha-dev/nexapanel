@@ -196,7 +196,7 @@ export default function ProductsContainer() {
                               <SelectItem value="asc">Asc</SelectItem>
                            </SelectContent>
                         </Select>
-                        <AddNewProduct />
+                        <AddNewProduct refetch={productsQuery.refetch} />
                      </div>
                      {productsQuery.isRefetching ? (
                         <div className="h-[500px] flex items-center justify-center">
@@ -255,8 +255,10 @@ export default function ProductsContainer() {
                                           {item.discountPercentage} %
                                        </TableCell>
                                        <TableCell className="flex items-center justify-center">
-                                          {item.rating}
-                                          <Star className="fill-current size-3 ml-1" />
+                                          <div className="flex items-center justify-start">
+                                             {item.rating}
+                                             <Star className="fill-current size-3 ml-1" />
+                                          </div>
                                        </TableCell>
                                        <TableCell>{item.stock}</TableCell>
                                        <TableCell className="justify-end flex">

@@ -6,7 +6,15 @@
 import { axiosInstance } from "@/lib/axios";
 import { GETRecipeType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Delete, Ellipsis, Loader2, Pen, Pizza, Star } from "lucide-react";
+import {
+   Delete,
+   Ellipsis,
+   Hash,
+   Loader2,
+   Pen,
+   Pizza,
+   Star,
+} from "lucide-react";
 import {
    Alert,
    AlertAction,
@@ -46,6 +54,8 @@ import {
 } from "@/component/ui/select";
 import { Recipe } from "@/type/general";
 import Image from "next/image";
+import AddNewRecipe from "./dialog/addNewRecipe";
+import { Badge } from "@/component/ui/badge";
 
 // Defining context
 export const tagsContext = createContext<string[]>([]);
@@ -163,7 +173,7 @@ export default function RecipesContainer() {
                               <SelectItem value="asc">Asc</SelectItem>
                            </SelectContent>
                         </Select>
-                        ADD
+                        <AddNewRecipe refetch={recipesQuery.refetch} />
                      </div>
                      {recipesQuery.isRefetching ? (
                         <div className="h-[500px] flex items-center justify-center">
@@ -179,6 +189,9 @@ export default function RecipesContainer() {
                                  <TableCell>Servings</TableCell>
                                  <TableCell>Difficulty</TableCell>
                                  <TableCell>Rating</TableCell>
+                                 <TableCell className="w-[300px]">
+                                    Tags
+                                 </TableCell>
                                  <TableCell />
                               </TableRow>
                            </TableHeader>
@@ -210,9 +223,24 @@ export default function RecipesContainer() {
                                     </TableCell>
                                     <TableCell>{item.servings}</TableCell>
                                     <TableCell>{item.difficulty}</TableCell>
-                                    <TableCell className="flex items-center justify-center">
-                                       {item.rating}
-                                       <Star className="fill-current size-3 ml-1" />
+                                    <TableCell>
+                                       <div className="flex items-center justify-start">
+                                          {item.rating}
+                                          <Star className="fill-current size-3 ml-1" />
+                                       </div>
+                                    </TableCell>
+                                    <TableCell>
+                                       <div className="flex iems-center justify-start gap-2 flex-wrap">
+                                          {item.tags.map((item, index) => (
+                                             <Badge
+                                                key={index}
+                                                variant="default"
+                                             >
+                                                <Hash />
+                                                {item}
+                                             </Badge>
+                                          ))}
+                                       </div>
                                     </TableCell>
                                     <TableCell className="justify-end flex">
                                        <DropdownMenu>

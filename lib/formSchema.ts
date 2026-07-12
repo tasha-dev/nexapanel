@@ -143,4 +143,36 @@ export const productSchema = z.object({
       min: 0,
       int: true,
    }),
+
+   tags: z.array(z.string()).optional(),
+});
+
+export const recipeFormSchema = z.object({
+   name: z
+      .string()
+      .trim()
+      .min(3, "Recipe name must be at least 3 characters.")
+      .max(100, "Recipe name must not exceed 100 characters."),
+   cuisine: z
+      .string()
+      .trim()
+      .min(3, "Cuisine name must be at least 3 characters.")
+      .max(100, "Cuisine name must not exceed 100 characters."),
+   prepTime: numberField("Prep time", {
+      min: 1,
+      int: true,
+   }),
+   servings: numberField("Servings", {
+      min: 1,
+      int: true,
+   }),
+   difficulty: z.enum(["easy", "medium", "hard"], {
+      message: "Please select a difficulty level.",
+   }),
+   tags: z.array(z.string()).min(1, "Please select at least one tag."),
+   rating: numberField("Rating", {
+      min: 0,
+      max: 5,
+   }),
+   image: z.string().trim().url("Please enter a valid image URL."),
 });
