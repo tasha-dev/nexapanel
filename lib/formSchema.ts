@@ -70,3 +70,77 @@ export const UserFormSchema = z.object({
          message: "This field has to be, 256 characters long at most.",
       }),
 });
+
+const numberField = (
+   label: string,
+   options?: {
+      min?: number;
+      max?: number;
+      int?: boolean;
+   },
+) =>
+   z
+      .string()
+      .trim()
+      .refine((value) => value !== "", {
+         message: `${label} is required.`,
+      })
+      .refine((value) => !Number.isNaN(value), {
+         message: `${label} must be a valid number.`,
+      })
+      .refine(
+         (value) => options?.min === undefined || Number(value) >= options.min,
+         {
+            message: `${label} must be greater than or equal to ${options?.min}.`,
+         },
+      )
+      .refine(
+         (value) => options?.max === undefined || Number(value) <= options.max,
+         {
+            message: `${label} cannot exceed ${options?.max}.`,
+         },
+      )
+      .refine((value) => !options?.int || Number.isInteger(Number(value)), {
+         message: `${label} must be a whole number.`,
+      });
+
+export const productSchema = z.object({
+   title: z
+      .string()
+      .trim()
+      .min(3, "Title must be at least 3 characters.")
+      .max(100, "Title cannot exceed 100 characters."),
+
+   thumbnail: z.string().trim().url("Please enter a valid image URL."),
+
+   description: z
+      .string()
+      .trim()
+      .min(10, "Description must be at least 10 characters.")
+      .max(1000, "Description cannot exceed 1000 characters."),
+
+   brand: z
+      .string()
+      .trim()
+      .min(2, "Brand is required.")
+      .max(50, "Brand cannot exceed 50 characters."),
+
+   category: z.string(),
+
+   price: numberField("Price", { min: 0 }),
+
+   discountPercentage: numberField("Discount percentage", {
+      min: 1,
+      max: 100,
+   }),
+
+   rating: numberField("Rating", {
+      min: 0,
+      max: 5,
+   }),
+
+   stock: numberField("Stock", {
+      min: 0,
+      int: true,
+   }),
+});

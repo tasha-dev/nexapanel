@@ -4,16 +4,9 @@
 
 // Importing part
 import { axiosInstance } from "@/lib/axios";
-import { GETProductType } from "@/type/api";
+import { GETCategoriesType, GETProductType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import {
-   Delete,
-   Ellipsis,
-   Loader2,
-   Pen,
-   Plus,
-   ShoppingCart,
-} from "lucide-react";
+import { Delete, Ellipsis, Loader2, Pen, ShoppingCart } from "lucide-react";
 import {
    Alert,
    AlertAction,
@@ -28,7 +21,7 @@ import {
    EmptyMedia,
    EmptyTitle,
 } from "@/component/ui/empty";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import Pagination from "@/component/pagination";
 import {
    Table,
@@ -54,6 +47,10 @@ import {
 import { Product } from "@/type/general";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/util";
+import AddNewProduct from "./dialog/addProduct";
+
+// Defining context
+export const categoriesContext = createContext<GETCategoriesType>([]);
 
 // Creating and exporting ProductsContainer component as default
 export default function ProductsContainer() {
@@ -80,23 +77,41 @@ export default function ProductsContainer() {
       },
    });
 
+   const categoriesQuery = useQuery<GETCategoriesType>({
+      queryKey: ["categories"],
+      queryFn: async () => {
+         const response = await axiosInstance.get(`/products/categories/`);
+         return response.data;
+      },
+      enabled: productsQuery.isPending && productsQuery.data,
+   });
+
+   // Defining variables
+   const isLoading = productsQuery.isLoading || categoriesQuery.isLoading;
+   const isError = productsQuery.isError || categoriesQuery.isError;
+
    // Returning JSX
    return (
       <>
          {productInfoEdit && "EDIT"}
          {productDeleteID && "DELETE"}
-         {productsQuery.isPending ? (
+         {isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
             </div>
-         ) : productsQuery.isError ? (
+         ) : isError ? (
             <Alert variant={"destructive"}>
                <AlertTitle>Error</AlertTitle>
                <AlertDescription>
                   There was an error while trying to fetch the Products.
                </AlertDescription>
                <AlertAction>
-                  <Button onClick={() => productsQuery.refetch()}>
+                  <Button
+                     onClick={() => {
+                        productsQuery.refetch();
+                        categoriesQuery.refetch();
+                     }}
+                  >
                      Try again
                   </Button>
                </AlertAction>
@@ -117,138 +132,149 @@ export default function ProductsContainer() {
                   </EmptyHeader>
                </Empty>
             ) : (
-               <div className="space-y-4">
-                  <div className="flex gap-3">
-                     <Input
-                        className="flex-1"
-                        placeholder="Search term"
-                        onChange={(e) => setSearchAttempt(e.target.value)}
-                        value={searchAttempt}
-                     />
-                     <Button
-                        className="shrink-0"
-                        onClick={() => {
-                           setSearch(searchAttempt);
-                        }}
-                     >
-                        Search
-                     </Button>
-                     <Select
-                        value={order}
-                        onValueChange={(value: "desc" | "asc") => {
-                           setOrder(value);
-                        }}
-                     >
-                        <SelectTrigger className="shrink-0">
-                           <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                           <SelectItem value="desc">Desc</SelectItem>
-                           <SelectItem value="asc">Asc</SelectItem>
-                        </SelectContent>
-                     </Select>
-                     <Button variant={"outline"} size="icon">
-                        <Plus />
-                     </Button>
-                  </div>
-                  {productsQuery.isRefetching ? (
-                     <div className="h-[500px] flex items-center justify-center">
-                        <Loader2 className="size-8 animate-spin" />
+               <categoriesContext.Provider
+                  value={categoriesQuery.data ? categoriesQuery.data : []}
+               >
+                  <div className="space-y-4">
+                     <div className="flex gap-3">
+                        <Input
+                           className="flex-1"
+                           placeholder="Search term"
+                           onChange={(e) => setSearchAttempt(e.target.value)}
+                           value={searchAttempt}
+                        />
+                        <Button
+                           className="shrink-0"
+                           onClick={() => {
+                              setSearch(searchAttempt);
+                           }}
+                        >
+                           Search
+                        </Button>
+                        <Select
+                           value={order}
+                           onValueChange={(value: "desc" | "asc") => {
+                              setOrder(value);
+                           }}
+                        >
+                           <SelectTrigger className="shrink-0">
+                              <SelectValue />
+                           </SelectTrigger>
+                           <SelectContent>
+                              <SelectItem value="desc">Desc</SelectItem>
+                              <SelectItem value="asc">Asc</SelectItem>
+                           </SelectContent>
+                        </Select>
+                        <AddNewProduct />
                      </div>
-                  ) : (
-                     <Table>
-                        <TableHeader>
-                           <TableRow>
-                              <TableCell>Id</TableCell>
-                              <TableCell>Info</TableCell>
-                              <TableCell>Brand</TableCell>
-                              <TableCell>Category</TableCell>
-                              <TableCell>Price</TableCell>
-                              <TableCell>Discount Percentage</TableCell>
-                              <TableCell>Rating</TableCell>
-                              <TableCell>Stock</TableCell>
-                              <TableCell />
-                           </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                           {productsQuery.data.products.map((item, index) => (
-                              <TableRow key={index}>
-                                 <TableCell>{item.id}</TableCell>
-                                 <TableCell>
-                                    <div className="flex items-center justify-start gap-2">
-                                       <Image
-                                          alt={"Thumbnail"}
-                                          src={item.thumbnail}
-                                          width={100}
-                                          height={100}
-                                          className="size-8 object-cover rounded-full bg-muted shrink-0"
-                                       />
-                                       <div className="flex-1 overflow-hidden">
-                                          <span className="font-semibold text-sm block truncate mb-0.5">
-                                             {item.title}
-                                          </span>
-                                          <span className="block truncate font-normal text-xs text-current/50">
-                                             {item.description.slice(0, 20)}
-                                          </span>
-                                       </div>
-                                    </div>
-                                 </TableCell>
-                                 <TableCell>{item.brand ?? "-"}</TableCell>
-                                 <TableCell>{item.category}</TableCell>
-                                 <TableCell>
-                                    {formatCurrency(item.price)}
-                                 </TableCell>
-                                 <TableCell>
-                                    {item.discountPercentage} %
-                                 </TableCell>
-                                 <TableCell>{item.rating}</TableCell>
-                                 <TableCell>{item.stock}</TableCell>
-                                 <TableCell className="justify-end flex">
-                                    <DropdownMenu>
-                                       <DropdownMenuTrigger asChild>
-                                          <Button
-                                             size={"icon-sm"}
-                                             variant={"outline"}
-                                             className="text-foreground"
-                                          >
-                                             <Ellipsis />
-                                          </Button>
-                                       </DropdownMenuTrigger>
-                                       <DropdownMenuContent align="end">
-                                          <DropdownMenuItem
-                                             onSelect={() => {
-                                                setProductInfoEdit(item);
-                                             }}
-                                          >
-                                             <Pen />
-                                             Edit user
-                                          </DropdownMenuItem>
-                                          <DropdownMenuItem
-                                             variant="destructive"
-                                             onSelect={() => {
-                                                setProductDeleteID(item.id);
-                                             }}
-                                          >
-                                             <Delete />
-                                             Delete user
-                                          </DropdownMenuItem>
-                                       </DropdownMenuContent>
-                                    </DropdownMenu>
-                                 </TableCell>
+                     {productsQuery.isRefetching ? (
+                        <div className="h-[500px] flex items-center justify-center">
+                           <Loader2 className="size-8 animate-spin" />
+                        </div>
+                     ) : (
+                        <Table>
+                           <TableHeader>
+                              <TableRow>
+                                 <TableCell>Id</TableCell>
+                                 <TableCell>Info</TableCell>
+                                 <TableCell>Brand</TableCell>
+                                 <TableCell>Category</TableCell>
+                                 <TableCell>Price</TableCell>
+                                 <TableCell>Discount Percentage</TableCell>
+                                 <TableCell>Rating</TableCell>
+                                 <TableCell>Stock</TableCell>
+                                 <TableCell />
                               </TableRow>
-                           ))}
-                        </TableBody>
-                     </Table>
-                  )}
-                  <Pagination
-                     total={productsQuery.data.total}
-                     skip={productsQuery.data.skip}
-                     limit={productsQuery.data.limit}
-                     onPageChange={(page) => {
-                        setSkip(page);
-                     }}
-                  />
-               </div>
+                           </TableHeader>
+                           <TableBody>
+                              {productsQuery.data.products.map(
+                                 (item, index) => (
+                                    <TableRow key={index}>
+                                       <TableCell>{item.id}</TableCell>
+                                       <TableCell>
+                                          <div className="flex items-center justify-start gap-2">
+                                             <Image
+                                                alt={"Thumbnail"}
+                                                src={item.thumbnail}
+                                                width={100}
+                                                height={100}
+                                                className="size-8 object-cover rounded-full bg-muted shrink-0"
+                                             />
+                                             <div className="flex-1 overflow-hidden">
+                                                <span className="font-semibold text-sm block truncate mb-0.5">
+                                                   {item.title}
+                                                </span>
+                                                <span className="block truncate font-normal text-xs text-current/50">
+                                                   {item.description.slice(
+                                                      0,
+                                                      20,
+                                                   )}
+                                                </span>
+                                             </div>
+                                          </div>
+                                       </TableCell>
+                                       <TableCell>
+                                          {item.brand ?? "-"}
+                                       </TableCell>
+                                       <TableCell>{item.category}</TableCell>
+                                       <TableCell>
+                                          {formatCurrency(item.price)}
+                                       </TableCell>
+                                       <TableCell>
+                                          {item.discountPercentage} %
+                                       </TableCell>
+                                       <TableCell>{item.rating}</TableCell>
+                                       <TableCell>{item.stock}</TableCell>
+                                       <TableCell className="justify-end flex">
+                                          <DropdownMenu>
+                                             <DropdownMenuTrigger asChild>
+                                                <Button
+                                                   size={"icon-sm"}
+                                                   variant={"outline"}
+                                                   className="text-foreground"
+                                                >
+                                                   <Ellipsis />
+                                                </Button>
+                                             </DropdownMenuTrigger>
+                                             <DropdownMenuContent align="end">
+                                                <DropdownMenuItem
+                                                   onSelect={() => {
+                                                      setProductInfoEdit(item);
+                                                   }}
+                                                >
+                                                   <Pen />
+                                                   Edit user
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                   variant="destructive"
+                                                   onSelect={() => {
+                                                      setProductDeleteID(
+                                                         item.id,
+                                                      );
+                                                   }}
+                                                >
+                                                   <Delete />
+                                                   Delete user
+                                                </DropdownMenuItem>
+                                             </DropdownMenuContent>
+                                          </DropdownMenu>
+                                       </TableCell>
+                                    </TableRow>
+                                 ),
+                              )}
+                           </TableBody>
+                        </Table>
+                     )}
+                     <Pagination
+                        total={productsQuery.data.total}
+                        skip={productsQuery.data.skip}
+                        limit={productsQuery.data.limit}
+                        onPageChange={(page) => {
+                           setSkip(page);
+                        }}
+                     />
+                  </div>
+               </categoriesContext.Provider>
             )
          ) : (
             false
