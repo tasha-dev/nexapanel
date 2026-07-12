@@ -21,7 +21,6 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldLabel } from "@/component/ui/field";
 import { Input } from "@/component/ui/input";
-import { DatePicker } from "@/component/ui/datePicker";
 import {
    Select,
    SelectContent,
@@ -192,7 +191,7 @@ export default function AddNewProduct({ refetch }: DialogProps) {
                                     {categories.map((item, index) => (
                                        <SelectItem
                                           key={index}
-                                          value={item.slug}
+                                          value={item.name.toLowerCase()}
                                        >
                                           {item.name}
                                        </SelectItem>

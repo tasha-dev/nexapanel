@@ -48,6 +48,7 @@ import { Product } from "@/type/general";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/util";
 import AddNewProduct from "./dialog/addProduct";
+import EditProduct from "./dialog/editProduct";
 
 // Defining context
 export const categoriesContext = createContext<GETCategoriesType>([]);
@@ -93,7 +94,6 @@ export default function ProductsContainer() {
    // Returning JSX
    return (
       <>
-         {productInfoEdit && "EDIT"}
          {productDeleteID && "DELETE"}
          {isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
@@ -135,6 +135,18 @@ export default function ProductsContainer() {
                <categoriesContext.Provider
                   value={categoriesQuery.data ? categoriesQuery.data : []}
                >
+                  {productInfoEdit && (
+                     <EditProduct
+                        refetch={productsQuery.refetch}
+                        data={productInfoEdit}
+                        open
+                        onOpenChange={(open) => {
+                           if (!open) {
+                              setProductInfoEdit(undefined);
+                           }
+                        }}
+                     />
+                  )}
                   <div className="space-y-4">
                      <div className="flex gap-3">
                         <Input
@@ -243,7 +255,7 @@ export default function ProductsContainer() {
                                                    }}
                                                 >
                                                    <Pen />
-                                                   Edit user
+                                                   Edit
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
                                                    variant="destructive"
@@ -254,7 +266,7 @@ export default function ProductsContainer() {
                                                    }}
                                                 >
                                                    <Delete />
-                                                   Delete user
+                                                   Delete
                                                 </DropdownMenuItem>
                                              </DropdownMenuContent>
                                           </DropdownMenu>
