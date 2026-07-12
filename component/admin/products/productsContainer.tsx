@@ -6,7 +6,14 @@
 import { axiosInstance } from "@/lib/axios";
 import { GETCategoriesType, GETProductType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import { Delete, Ellipsis, Loader2, Pen, ShoppingCart } from "lucide-react";
+import {
+   Delete,
+   Ellipsis,
+   Loader2,
+   Pen,
+   ShoppingCart,
+   Star,
+} from "lucide-react";
 import {
    Alert,
    AlertAction,
@@ -247,7 +254,10 @@ export default function ProductsContainer() {
                                        <TableCell>
                                           {item.discountPercentage} %
                                        </TableCell>
-                                       <TableCell>{item.rating}</TableCell>
+                                       <TableCell className="flex items-center justify-center">
+                                          {item.rating}
+                                          <Star className="fill-current size-3 ml-1" />
+                                       </TableCell>
                                        <TableCell>{item.stock}</TableCell>
                                        <TableCell className="justify-end flex">
                                           <DropdownMenu>
