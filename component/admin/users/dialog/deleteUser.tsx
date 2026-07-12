@@ -37,7 +37,7 @@ export default function DeleteUser({
          refetch?.();
 
          toast.success("User deleted successfully");
-         onOpenChange(false);
+         onOpenChange?.(false);
       },
       onError: () =>
          toast.error("here was an error while trying to delete user."),
@@ -49,7 +49,7 @@ export default function DeleteUser({
          open={open}
          onOpenChange={(open) => {
             if (!mutation.isPending) {
-               onOpenChange(open);
+               onOpenChange?.(open);
             }
          }}
       >

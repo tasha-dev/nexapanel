@@ -9,8 +9,8 @@ export const metadata: Metadata = {
    title: "Users Dashboard",
 };
 
-// Creating and exporting Admin home page as default
-export default function AdminPage() {
+// Creating and exporting Users Admin home page as default
+export default function UsersAdminPage() {
    // Returning JSX
    return (
       <AdminLayout title="Users Dashboard">

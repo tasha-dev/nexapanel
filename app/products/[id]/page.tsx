@@ -28,6 +28,7 @@ import { useParams } from "next/navigation";
 import moment from "moment";
 import ProductReview from "@/component/product/productReview";
 import AddToCartButton from "@/component/product/addToCartButton";
+import { formatCurrency } from "@/lib/util";
 
 // Creating and exporting Single Product page as default
 export default function SingleProduct() {
@@ -87,10 +88,15 @@ export default function SingleProduct() {
                            <h1 className="lg:truncate mt-0 mb-3">
                               {product.data.title}
                            </h1>
-                           <h2 className="mt-0 mb-4">{product.data.price}$</h2>
+                           <h2 className="mt-0 mb-4">
+                              {formatCurrency(product.data.price)}
+                           </h2>
                            <ul className="mt-0">
                               <li>
-                                 Discount : {product.data.discountPercentage}$
+                                 Discount :{" "}
+                                 {formatCurrency(
+                                    product.data.discountPercentage,
+                                 )}
                               </li>
                               <li>Rating : {product.data.rating}</li>
                               <li>Stock : {product.data.stock}</li>
@@ -99,10 +105,7 @@ export default function SingleProduct() {
                            <div className="lg:bg-transparent bg-foreground/5 lg:static fixed bottom-0 left-0 w-full lg:p-0 p-4 lg:border-t-0 border-t border-foreground/10 lg:backdrop-blur-none backdrop-blur-2xl z-20">
                               <AddToCartButton
                                  className="lg:w-auto w-full"
-                                 product={{
-                                    id: product.data.id,
-                                    stock: product.data.stock,
-                                 }}
+                                 product={product.data}
                               />
                            </div>
                         </div>
@@ -126,7 +129,6 @@ export default function SingleProduct() {
                            <li>
                               Availibilty : {product.data.availabilityStatus}
                            </li>
-                           <li>Discount : {product.data.discountPercentage}</li>
                            <li>Rating : {product.data.rating}</li>
                            <li>Stock : {product.data.stock}</li>
                            <li>Brand : {product.data.brand}</li>

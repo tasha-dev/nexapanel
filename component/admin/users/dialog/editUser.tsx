@@ -78,7 +78,7 @@ export default function EditUser({
          refetch?.();
 
          toast.success("User updated successfully");
-         onOpenChange(false);
+         onOpenChange?.(false);
       } catch {
          toast.error("There was an error while trying to update user.");
       }
@@ -90,7 +90,7 @@ export default function EditUser({
          open={open}
          onOpenChange={(open) => {
             if (!form.formState.isSubmitting) {
-               onOpenChange(open);
+               onOpenChange?.(open);
             }
          }}
       >

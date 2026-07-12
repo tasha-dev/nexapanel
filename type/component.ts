@@ -2,7 +2,7 @@
 // Importing part
 import { ReactNode } from "react";
 import { Cart, Comment, Post, Product, Quote, Recipe, Todo } from "./general";
-import { GETMeType } from "./api";
+import { GETCart, GETMeType } from "./api";
 
 // Creating and exporting props type of components
 export interface ChildrenOnlyProps {
@@ -70,6 +70,7 @@ export interface AddToCartButtonProps {
 export interface CartItemProps {
    className?: string;
    data: Cart;
+   onDelete?: () => void;
 }
 
 export interface AdminLayoutProps {
@@ -92,18 +93,21 @@ export interface DatePickerProps {
 
 export interface DialogProps {
    refetch?: () => void;
+   open?: boolean;
+   onOpenChange?: (open: boolean) => void;
 }
 
-export interface EditUserDialogProps {
+export interface EditUserDialogProps extends DialogProps {
    info: GETMeType;
-   refetch: () => void;
-   open: boolean;
-   onOpenChange: (open: boolean) => void;
 }
 
-export interface DeleteUserDialogProps {
+export interface DeleteUserDialogProps extends DialogProps {
    id: number;
-   refetch: () => void;
-   open: boolean;
-   onOpenChange: (open: boolean) => void;
+}
+
+export interface EditCartDialogProps extends DialogProps {
+   data: {
+      id: number;
+      products: Cart[];
+   };
 }

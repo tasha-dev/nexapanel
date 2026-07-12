@@ -35,13 +35,13 @@ import { axiosInstance } from "@/lib/axios";
 import useLoggedIn from "@/hook/useLoggedIn";
 import { GETCart } from "@/type/api";
 import { Cart } from "@/type/general";
+import { formatCurrency } from "@/lib/util";
 
 // Creating and exporting CartSheet component as default
 export default function CartSheet() {
    // Defining hooks
    const { cart, clearCart, setCart } = cartStore();
    const { data, isLoggedIn } = useLoggedIn();
-
    const cartMutation = useMutation({
       mutationFn: ({
          userId,
@@ -97,9 +97,9 @@ export default function CartSheet() {
    ]);
 
    // Using useEffect to debug the issue of zustand
-   useEffect(() => {
-      // console.log(`✅ CartSheet : Cart : ${cart}, CartLenght :${cart.length}`);
-   }, [cart]);
+   // useEffect(() => {
+   //    console.log(`✅ CartSheet : Cart : ${cart}, CartLenght :${cart.length}`);
+   // }, [cart]);
 
    // Defining variables
    const total = cart.reduce((sum, item) => {
@@ -119,7 +119,6 @@ export default function CartSheet() {
                <TooltipContent>Shopping cart</TooltipContent>
             </Tooltip>
          </SheetTrigger>
-
          <SheetContent className="h-dvh flex flex-col">
             <SheetHeader className="shrink-0">
                <SheetTitle>Shopping cart</SheetTitle>
@@ -127,7 +126,6 @@ export default function CartSheet() {
                   Products you want to order are shown here.
                </SheetDescription>
             </SheetHeader>
-
             <div className="p-4 h-full overflow-auto">
                {cart.length === 0 ? (
                   <Empty>
@@ -135,9 +133,7 @@ export default function CartSheet() {
                         <EmptyMedia variant={"icon"}>
                            <ShoppingCart />
                         </EmptyMedia>
-
                         <EmptyTitle>Nothing to show</EmptyTitle>
-
                         <EmptyDescription>
                            The list is empty and there is nothing to show !
                         </EmptyDescription>
@@ -154,16 +150,14 @@ export default function CartSheet() {
                   </div>
                )}
             </div>
-
             {cart.length !== 0 && (
                <SheetFooter className="shrink-0">
                   <p className="cn-font-heading text-base font-medium text-foreground">
                      Total :{" "}
                      <span className="text-sm/relaxed text-muted-foreground">
-                        {total.toFixed(2)} $
+                        {formatCurrency(total)}
                      </span>
                   </p>
-
                   <Button
                      disabled={cartMutation.isPending}
                      onClick={async () => {
@@ -199,7 +193,6 @@ export default function CartSheet() {
                      )}
                      Add
                   </Button>
-
                   <Button
                      variant={"destructive"}
                      onClick={() => {

@@ -10,9 +10,9 @@ import {
    Delete,
    Ellipsis,
    Loader2,
-   LucideQuote,
    Mars,
    Pen,
+   User,
    Venus,
 } from "lucide-react";
 import {
@@ -110,7 +110,7 @@ export default function UsersContainer() {
             <Alert variant={"destructive"}>
                <AlertTitle>Error</AlertTitle>
                <AlertDescription>
-                  There was an error while trying to fetch the Quotes.
+                  There was an error while trying to fetch the Users.
                </AlertDescription>
                <AlertAction>
                   <Button onClick={() => usersQuery.refetch()}>
@@ -123,7 +123,7 @@ export default function UsersContainer() {
                <Empty>
                   <EmptyHeader>
                      <EmptyMedia variant={"icon"}>
-                        <LucideQuote />
+                        <User />
                      </EmptyMedia>
                      <EmptyTitle>Nothing to show</EmptyTitle>
                      <EmptyDescription>

@@ -3,7 +3,7 @@
 "use client";
 
 // Importing part
-import { cn } from "@/lib/util";
+import { cn, formatCurrency } from "@/lib/util";
 import { CartItemProps } from "@/type/component";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +14,7 @@ import cartStore from "@/store/cart";
 import { toast } from "sonner";
 
 // Creating and exporting CartItem component as default
-export default function CartItem({ data, className }: CartItemProps) {
+export default function CartItem({ data, className, onDelete }: CartItemProps) {
    // Defining hooks
    const { removeProduct } = cartStore();
 
@@ -36,7 +36,7 @@ export default function CartItem({ data, className }: CartItemProps) {
                {data.title}
             </Link>
             <span className="block text-xs font-light text-muted-foreground truncate mb-0.5">
-               {data.price}
+               {formatCurrency(data.price)}
             </span>
             <div className="flex items-end justify-between">
                <span className="block text-xs font-light text-muted-foreground truncate flex-1">
@@ -50,10 +50,14 @@ export default function CartItem({ data, className }: CartItemProps) {
                         type="button"
                         className="shrink-0"
                         onClick={() => {
-                           removeProduct(data.id);
-                           toast.success(
-                              "The item is successfully delete from your cart.",
-                           );
+                           if (onDelete) {
+                              onDelete?.();
+                           } else {
+                              removeProduct(data.id);
+                              toast.success(
+                                 "The item is successfully delete from your cart.",
+                              );
+                           }
                         }}
                      >
                         <Trash />
