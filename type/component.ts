@@ -118,3 +118,7 @@ export type DeleteProductDialogProps = DeleteUserDialogProps;
 export interface EditProductDialogProps extends DialogProps {
    data: Product;
 }
+
+export interface EditRecipeDialogProps extends DialogProps {
+   data: Recipe;
+}

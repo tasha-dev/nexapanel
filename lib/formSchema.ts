@@ -166,7 +166,7 @@ export const recipeFormSchema = z.object({
       min: 1,
       int: true,
    }),
-   difficulty: z.enum(["easy", "medium", "hard"], {
+   difficulty: z.enum(["Easy", "Medium", "Hard"], {
       message: "Please select a difficulty level.",
    }),
    tags: z.array(z.string()).min(1, "Please select at least one tag."),

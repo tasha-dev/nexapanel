@@ -12,9 +12,8 @@ import {
    DialogFooter,
    DialogHeader,
    DialogTitle,
-   DialogTrigger,
 } from "@/component/ui/dialog";
-import { Loader2, Plus, Send, X } from "lucide-react";
+import { Loader2, Send, X } from "lucide-react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { recipeFormSchema as formSchema } from "@/lib/formSchema";
 import z from "zod";
@@ -28,16 +27,11 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/component/ui/select";
-import { DialogProps } from "@/type/component";
+import { EditRecipeDialogProps } from "@/type/component";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
 import { toast } from "sonner";
-import { useContext, useState } from "react";
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipTrigger,
-} from "@/component/ui/tooltip";
+import { useContext } from "react";
 import { tagsContext } from "../recepiesContainer";
 import { Badge } from "@/component/ui/badge";
 import {
@@ -50,21 +44,35 @@ import {
 // Defining form type
 type formType = z.infer<typeof formSchema>;
 
-// Creating and exporting AddNewRecipe Dialog as default
-export default function AddNewRecipe({ refetch }: DialogProps) {
+// Creating and exporting EditRecipe Dialog as default
+export default function EditRecipe({
+   refetch,
+   open,
+   onOpenChange,
+   data,
+}: EditRecipeDialogProps) {
    // Defining hooks
-   const [open, setOpen] = useState(false);
    const tags = useContext(tagsContext);
    const form = useForm<formType>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         tags: [],
+         cuisine: data.cuisine,
+         difficulty: data.difficulty,
+         prepTime: String(data.prepTimeMinutes),
+         servings: String(data.servings),
+         rating: String(data.rating),
+         image: data.image,
+         tags: data.tags,
+         name: data.name,
       },
    });
 
    const mutation = useMutation({
-      mutationFn: async ({ data }: { data: formType }) => {
-         const response = await axiosInstance.post("/recipes/add", data);
+      mutationFn: async ({ newData }: { newData: formType }) => {
+         const response = await axiosInstance.post(
+            `/recipes/${data.id}`,
+            newData,
+         );
          return response.data;
       },
    });
@@ -73,17 +81,17 @@ export default function AddNewRecipe({ refetch }: DialogProps) {
    const submitHandler: SubmitHandler<formType> = async (data) => {
       try {
          await mutation.mutateAsync({
-            data,
+            newData: data,
          });
 
          refetch?.();
 
-         toast.success("Recipe added successfully");
+         toast.success("Recipe edited successfully");
          form.reset();
       } catch {
-         toast.error("There was an error while trying to create new recipe.");
+         toast.error("There was an error while trying to edit recipe.");
       } finally {
-         setOpen(false);
+         onOpenChange?.(false);
       }
    };
 
@@ -96,29 +104,17 @@ export default function AddNewRecipe({ refetch }: DialogProps) {
          open={open}
          onOpenChange={(open) => {
             if (!form.formState.isSubmitting) {
-               setOpen(open);
+               onOpenChange?.(open);
             }
          }}
       >
-         <DialogTrigger>
-            <Tooltip>
-               <TooltipTrigger asChild>
-                  <Button variant={"outline"} size="icon">
-                     <Plus />
-                  </Button>
-               </TooltipTrigger>
-               <TooltipContent>
-                  <p>Create Recipe</p>
-               </TooltipContent>
-            </Tooltip>
-         </DialogTrigger>
          <DialogContent>
             <DialogHeader>
-               <DialogTitle>Create Recipe</DialogTitle>
+               <DialogTitle>Edit Recipe</DialogTitle>
                <DialogDescription>
-                  Add a new recipe by providing its title, category, and other
-                  required details. Make sure all information is accurate before
-                  saving.
+                  Update the recipe information, including its title,
+                  ingredients, instructions, category, or other details. Review
+                  your changes before saving.
                </DialogDescription>
             </DialogHeader>
             <form action="#" onSubmit={form.handleSubmit(submitHandler)}>

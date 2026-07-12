@@ -56,6 +56,7 @@ import { Recipe } from "@/type/general";
 import Image from "next/image";
 import AddNewRecipe from "./dialog/addNewRecipe";
 import { Badge } from "@/component/ui/badge";
+import EditRecipe from "./dialog/editRecipe";
 
 // Defining context
 export const tagsContext = createContext<string[]>([]);
@@ -142,7 +143,18 @@ export default function RecipesContainer() {
                <tagsContext.Provider
                   value={tagsQuery.data ? tagsQuery.data : []}
                >
-                  {recipesInfoEdit && "EDIT"}
+                  {recipesInfoEdit && (
+                     <EditRecipe
+                        data={recipesInfoEdit}
+                        open
+                        refetch={recipesQuery.refetch}
+                        onOpenChange={(open) => {
+                           if (!open) {
+                              setRecipesInfoEdit(undefined);
+                           }
+                        }}
+                     />
+                  )}
                   <div className="space-y-4">
                      <div className="flex gap-3">
                         <Input

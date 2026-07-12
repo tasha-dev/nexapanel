@@ -48,7 +48,7 @@ export interface Recipe {
    prepTimeMinutes: number;
    cookTimeMinutes: number;
    servings: number;
-   difficulty: string;
+   difficulty: "Easy" | "Medium" | "Hard";
    cuisine: string;
    caloriesPerServing: number;
    tags: string[];
