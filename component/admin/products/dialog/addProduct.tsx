@@ -215,8 +215,6 @@ export default function AddNewProduct({ refetch }: DialogProps) {
                               {...field}
                               id={field.name}
                               aria-invalid={fieldState.invalid}
-                              min={0}
-                              max={5}
                               placeholder="Enter rating"
                               type="number"
                            />
@@ -241,7 +239,6 @@ export default function AddNewProduct({ refetch }: DialogProps) {
                                  aria-invalid={fieldState.invalid}
                                  placeholder="Enter price"
                                  type="number"
-                                 min={1}
                               />
                               {fieldState.invalid && (
                                  <FieldError errors={[fieldState.error]} />
@@ -263,8 +260,6 @@ export default function AddNewProduct({ refetch }: DialogProps) {
                                  aria-invalid={fieldState.invalid}
                                  placeholder="Enter discount percentage"
                                  type="number"
-                                 min={0}
-                                 max={100}
                               />
                               {fieldState.invalid && (
                                  <FieldError errors={[fieldState.error]} />
@@ -290,7 +285,6 @@ export default function AddNewProduct({ refetch }: DialogProps) {
                               aria-invalid={fieldState.invalid}
                               placeholder="Enter stock"
                               type="number"
-                              min={0}
                            />
                            {fieldState.invalid && (
                               <FieldError errors={[fieldState.error]} />

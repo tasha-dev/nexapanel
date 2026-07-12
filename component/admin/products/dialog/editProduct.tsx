@@ -64,8 +64,11 @@ export default function EditProduct({
    });
 
    const mutation = useMutation({
-      mutationFn: async ({ data }: { data: formType }) => {
-         const response = await axiosInstance.post("/products/add", data);
+      mutationFn: async ({ dataToSet }: { dataToSet: formType }) => {
+         const response = await axiosInstance.put(
+            `/products/${data.id}`,
+            dataToSet,
+         );
          return response.data;
       },
    });
@@ -74,14 +77,14 @@ export default function EditProduct({
    const submitHandler: SubmitHandler<formType> = async (data) => {
       try {
          await mutation.mutateAsync({
-            data,
+            dataToSet: data,
          });
 
          refetch?.();
-         toast.success("Product added successfully");
+         toast.success("Product was edited successfully");
          form.reset();
       } catch {
-         toast.error("There was an error while trying to create new product.");
+         toast.error("There was an error while trying to edit product.");
       } finally {
          onOpenChange?.(false);
       }
@@ -217,8 +220,6 @@ export default function EditProduct({
                                  {...field}
                                  id={field.name}
                                  aria-invalid={fieldState.invalid}
-                                 min={0}
-                                 max={5}
                                  placeholder="Enter rating"
                                  type="number"
                               />
@@ -243,7 +244,6 @@ export default function EditProduct({
                                     aria-invalid={fieldState.invalid}
                                     placeholder="Enter price"
                                     type="number"
-                                    min={1}
                                  />
                                  {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
@@ -265,8 +265,6 @@ export default function EditProduct({
                                     aria-invalid={fieldState.invalid}
                                     placeholder="Enter discount percentage"
                                     type="number"
-                                    min={0}
-                                    max={100}
                                  />
                                  {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
@@ -292,7 +290,6 @@ export default function EditProduct({
                                  aria-invalid={fieldState.invalid}
                                  placeholder="Enter stock"
                                  type="number"
-                                 min={0}
                               />
                               {fieldState.invalid && (
                                  <FieldError errors={[fieldState.error]} />
