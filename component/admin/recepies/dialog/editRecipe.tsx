@@ -69,7 +69,7 @@ export default function EditRecipe({
 
    const mutation = useMutation({
       mutationFn: async ({ newData }: { newData: formType }) => {
-         const response = await axiosInstance.post(
+         const response = await axiosInstance.put(
             `/recipes/${data.id}`,
             newData,
          );

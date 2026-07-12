@@ -57,6 +57,7 @@ import Image from "next/image";
 import AddNewRecipe from "./dialog/addNewRecipe";
 import { Badge } from "@/component/ui/badge";
 import EditRecipe from "./dialog/editRecipe";
+import DeleteRecipe from "./dialog/deleteRecipe";
 
 // Defining context
 export const tagsContext = createContext<string[]>([]);
@@ -102,7 +103,16 @@ export default function RecipesContainer() {
    // Returning JSX
    return (
       <>
-         {recipeDeleteID && "DELETE"}
+         {recipeDeleteID && (
+            <DeleteRecipe
+               id={recipeDeleteID}
+               refetch={recipesQuery.refetch}
+               open
+               onOpenChange={(open) => {
+                  if (!open) setRecipeDeleteID(undefined);
+               }}
+            />
+         )}
          {isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
