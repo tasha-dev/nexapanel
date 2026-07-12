@@ -15,30 +15,31 @@ import {
    DialogTitle,
 } from "@/component/ui/dialog";
 import { Loader2, Trash } from "lucide-react";
-import { DeleteUserDialogProps } from "@/type/component";
+import { DeleteCartDialogProps, DeleteUserDialogProps } from "@/type/component";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
 import { toast } from "sonner";
 
-// Creating and exporting DeleteUser Dialog as default
-export default function DeleteUser({
+// Creating and exporting DeleteCart Dialog as default
+export default function DeleteCart({
    refetch,
    id,
    onOpenChange,
    open,
-}: DeleteUserDialogProps) {
+}: DeleteCartDialogProps) {
    // Defining hooks
    const mutation = useMutation({
       mutationFn: async () => {
-         const response = await axiosInstance.delete(`/users/${id}`);
+         const response = await axiosInstance.delete(`/carts/${id}`);
          return response.data;
       },
       onSuccess: () => {
          refetch?.();
-         toast.success("User deleted successfully");
+
+         toast.success("Cart deleted successfully");
       },
       onError: () =>
-         toast.error("here was an error while trying to delete user."),
+         toast.error("here was an error while trying to delete cart."),
       onSettled: () => onOpenChange?.(false),
    });
 
@@ -55,11 +56,11 @@ export default function DeleteUser({
          <DialogPortal>
             <DialogContent>
                <DialogHeader>
-                  <DialogTitle>Delete User</DialogTitle>
+                  <DialogTitle>Delete Cart</DialogTitle>
                   <DialogDescription>
-                     Are you sure you want to delete this user? This action
-                     cannot be undone, and all associated data will be
-                     permanently removed.
+                     Are you sure you want to delete this cart? This action
+                     cannot be undone and all associated cart information will
+                     be permanently removed.
                   </DialogDescription>
                </DialogHeader>
                <DialogFooter>

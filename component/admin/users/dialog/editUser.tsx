@@ -78,9 +78,10 @@ export default function EditUser({
          refetch?.();
 
          toast.success("User updated successfully");
-         onOpenChange?.(false);
       } catch {
          toast.error("There was an error while trying to update user.");
+      } finally {
+         onOpenChange?.(false);
       }
    };
 

@@ -65,10 +65,11 @@ export default function AddNewUser({ refetch }: DialogProps) {
          refetch?.();
 
          toast.success("User added successfully");
-         setOpen(false);
          form.reset();
       } catch {
          toast.error("There was an error while trying to create new user.");
+      } finally {
+         setOpen(false);
       }
    };
 

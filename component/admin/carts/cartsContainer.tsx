@@ -40,6 +40,7 @@ import {
 import { MeContext } from "@/component/layout/authProvider";
 import { EditCartDialogProps } from "@/type/component";
 import EditCart from "./dialog/editCart";
+import DeleteCart from "./dialog/deleteCart";
 
 // Creating and exporting CartsContainer component as default
 export default function CartsContainer() {
@@ -74,6 +75,16 @@ export default function CartsContainer() {
                refetch={cartsQuery.refetch}
                onOpenChange={(open) => {
                   if (!open) setCartInfoEdit(undefined);
+               }}
+            />
+         )}
+         {cartDeleteID && (
+            <DeleteCart
+               id={cartDeleteID}
+               open
+               refetch={cartsQuery.refetch}
+               onOpenChange={(open) => {
+                  if (!open) setCartDeleteID(undefined);
                }}
             />
          )}
@@ -158,7 +169,7 @@ export default function CartsContainer() {
                                        </DropdownMenuTrigger>
                                        <DropdownMenuContent align="end">
                                           <DropdownMenuItem
-                                             onClick={() => {
+                                             onSelect={() => {
                                                 setCartInfoEdit({
                                                    id: item.id,
                                                    products: item.products,
@@ -167,7 +178,12 @@ export default function CartsContainer() {
                                           >
                                              Edit cart
                                           </DropdownMenuItem>
-                                          <DropdownMenuItem variant="destructive">
+                                          <DropdownMenuItem
+                                             variant="destructive"
+                                             onSelect={() =>
+                                                setCartDeleteID(item.id)
+                                             }
+                                          >
                                              Delete cart
                                           </DropdownMenuItem>
                                        </DropdownMenuContent>
