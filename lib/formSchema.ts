@@ -186,8 +186,8 @@ export const postFormSchema = z.object({
    body: z
       .string()
       .trim()
-      .min(20, "Body must be at least 3 characters.")
-      .max(512, "Body name must not exceed 100 characters."),
+      .min(20, "Body must be at least 20 characters.")
+      .max(512, "Body must not exceed 512 characters."),
    tags: z.array(z.string()).min(1, "Please select at least one tag."),
 });
 
@@ -198,4 +198,17 @@ export const todoFormSchema = z.object({
       .min(3, "Title must be at least 3 characters.")
       .max(100, "Title must not exceed 100 characters."),
    completed: z.boolean(),
+});
+
+export const quoteFormSchema = z.object({
+   quote: z
+      .string()
+      .trim()
+      .min(3, "Quote must be at least 3 characters.")
+      .max(512, "Quote must not exceed 512 characters."),
+   author: z
+      .string()
+      .trim()
+      .min(3, "Author must be at least 3 characters.")
+      .max(100, "Author must not exceed 100 characters."),
 });
