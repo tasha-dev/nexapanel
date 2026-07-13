@@ -48,6 +48,7 @@ import {
 import { MeContext } from "@/component/layout/authProvider";
 import { Todo } from "@/type/general";
 import AddNewTodo from "./dialog/addNewTodo";
+import EditTodo from "./dialog/editTodo";
 
 // Creating and exporting TodosContainer component as default
 export default function TodosContainer() {
@@ -72,16 +73,6 @@ export default function TodosContainer() {
       },
    });
 
-   // {userInfoEdit && (
-   //    <EditUser
-   //       info={userInfoEdit}
-   //       open
-   //       refetch={usersQuery.refetch}
-   //       onOpenChange={(open) => {
-   //          if (!open) setUserInfoEdit(undefined);
-   //       }}
-   //    />
-   // )}
    // {userDeleteID && (
    //    <DeleteUser
    //       id={userDeleteID}
@@ -96,6 +87,16 @@ export default function TodosContainer() {
    // Returning JSX
    return (
       <div className="relative">
+         {todoInfoEdit && (
+            <EditTodo
+               data={todoInfoEdit}
+               open
+               refetch={todosQuery.refetch}
+               onOpenChange={(open) => {
+                  if (!open) setTodoInfoEdit(undefined);
+               }}
+            />
+         )}
          {todosQuery.isPending ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />

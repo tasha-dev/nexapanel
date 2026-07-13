@@ -128,3 +128,7 @@ export interface EditRecipeDialogProps extends DialogProps {
 export interface EditPostDialogProps extends DialogProps {
    data: Post;
 }
+
+export interface EditTodoDialogProps extends DialogProps {
+   data: Todo;
+}
