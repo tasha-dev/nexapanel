@@ -12,7 +12,6 @@ import {
    DialogFooter,
    DialogHeader,
    DialogTitle,
-   DialogTrigger,
 } from "@/component/ui/dialog";
 import { Loader2, Plus, Send, X } from "lucide-react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -21,16 +20,11 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldLabel } from "@/component/ui/field";
 import { Input } from "@/component/ui/input";
-import { DialogProps } from "@/type/component";
+import { EditPostDialogProps } from "@/type/component";
 import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
 import { toast } from "sonner";
-import { useContext, useState } from "react";
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipTrigger,
-} from "@/component/ui/tooltip";
+import { useContext } from "react";
 import { tagsContext } from "../postsContainer";
 import { Badge } from "@/component/ui/badge";
 import {
@@ -45,23 +39,29 @@ import { MeContext } from "@/component/layout/authProvider";
 // Defining form type
 type formType = z.infer<typeof formSchema>;
 
-// Creating and exporting AddNewPost Dialog as default
-export default function AddNewPost({ refetch }: DialogProps) {
+// Creating and exporting EditPost Dialog as default
+export default function EditPost({
+   data,
+   onOpenChange,
+   open,
+   refetch,
+}: EditPostDialogProps) {
    // Defining hooks
-   const [open, setOpen] = useState(false);
    const tags = useContext(tagsContext);
    const userInfo = useContext(MeContext);
    const form = useForm<formType>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         tags: [],
+         tags: data.tags,
+         title: data.title,
+         body: data.body,
       },
    });
 
    const mutation = useMutation({
-      mutationFn: async ({ data }: { data: formType }) => {
-         const response = await axiosInstance.post("/posts/add", {
-            ...data,
+      mutationFn: async ({ newData }: { newData: formType }) => {
+         const response = await axiosInstance.post(`/posts/${data.id}`, {
+            ...newData,
             userId: userInfo ? (userInfo === "401" ? 0 : userInfo.id) : 0,
          });
          return response.data;
@@ -72,17 +72,17 @@ export default function AddNewPost({ refetch }: DialogProps) {
    const submitHandler: SubmitHandler<formType> = async (data) => {
       try {
          await mutation.mutateAsync({
-            data,
+            newData: data,
          });
 
          refetch?.();
 
-         toast.success("Post added successfully");
+         toast.success("Post edited successfully");
          form.reset();
       } catch {
-         toast.error("There was an error while trying to create new post.");
+         toast.error("There was an error while trying to edit post.");
       } finally {
-         setOpen(false);
+         onOpenChange?.(false);
       }
    };
 
@@ -95,27 +95,15 @@ export default function AddNewPost({ refetch }: DialogProps) {
          open={open}
          onOpenChange={(open) => {
             if (!form.formState.isSubmitting) {
-               setOpen(open);
+               onOpenChange?.(open);
             }
          }}
       >
-         <DialogTrigger>
-            <Tooltip>
-               <TooltipTrigger asChild>
-                  <Button variant={"outline"} size="icon">
-                     <Plus />
-                  </Button>
-               </TooltipTrigger>
-               <TooltipContent>
-                  <p>Create Post</p>
-               </TooltipContent>
-            </Tooltip>
-         </DialogTrigger>
          <DialogContent>
             <DialogHeader>
-               <DialogTitle>Create Post</DialogTitle>
+               <DialogTitle>Edit Post</DialogTitle>
                <DialogDescription>
-                  Add a new post by providing its title, body, and tags.
+                  edit post by editing its title, body, and tags.
                </DialogDescription>
             </DialogHeader>
             <form action="#" onSubmit={form.handleSubmit(submitHandler)}>

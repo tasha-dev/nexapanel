@@ -123,3 +123,7 @@ export interface EditProductDialogProps extends DialogProps {
 export interface EditRecipeDialogProps extends DialogProps {
    data: Recipe;
 }
+
+export interface EditPostDialogProps extends DialogProps {
+   data: Post;
+}

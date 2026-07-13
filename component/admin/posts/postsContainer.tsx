@@ -58,6 +58,7 @@ import { MeContext } from "@/component/layout/authProvider";
 import { cn } from "@/lib/util";
 import { Badge } from "@/component/ui/badge";
 import AddNewPost from "./dialog/addNewPost";
+import EditPost from "./dialog/editPost";
 
 // Defining context
 export const tagsContext = createContext<string[]>([]);
@@ -143,7 +144,18 @@ export default function PostsContainer() {
                <tagsContext.Provider
                   value={tagsQuery.data ? tagsQuery.data : []}
                >
-                  {postInfoEdit && "EDIT"}
+                  {postInfoEdit && (
+                     <EditPost
+                        open
+                        refetch={postsQuery.refetch}
+                        data={postInfoEdit}
+                        onOpenChange={(open) => {
+                           if (!open) {
+                              setPostInfoEdit(undefined);
+                           }
+                        }}
+                     />
+                  )}
                   <div className="space-y-4">
                      <div className="flex gap-3">
                         <Input
