@@ -52,10 +52,10 @@ import {
    SelectValue,
 } from "@/component/ui/select";
 import { Comment } from "@/type/general";
-import Image from "next/image";
-import { Badge } from "@/component/ui/badge";
 import { cn } from "@/lib/util";
+import { Badge } from "@/component/ui/badge";
 import { MeContext } from "@/component/layout/authProvider";
+import AddNewComment from "./dialog/addNewComment";
 
 // Creating and exporting CommentsContainer component as default
 export default function CommentsContainer() {
@@ -69,15 +69,12 @@ export default function CommentsContainer() {
    );
 
    const [skip, setSkip] = useState(0);
-   const [searchAttempt, setSearchAttempt] = useState("");
-   const [search, setSearch] = useState("");
-   const [order, setOrder] = useState<"desc" | "asc">("desc");
    const userInfo = useContext(MeContext);
    const commentsQuery = useQuery<GETCommentsType>({
-      queryKey: ["comments", skip, search, order],
+      queryKey: ["comments", skip],
       queryFn: async () => {
          const response = await axiosInstance.get(
-            `/comments?limit=20&skip=${skip}&order=${order}${search ? `&search?q=${search}` : ""}`,
+            `/comments?limit=20&skip=${skip}`,
          );
          return response.data;
       },
@@ -108,7 +105,7 @@ export default function CommentsContainer() {
 
    // Returning JSX
    return (
-      <>
+      <div className="relative">
          {commentsQuery.isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
@@ -142,37 +139,7 @@ export default function CommentsContainer() {
                </Empty>
             ) : (
                <div className="space-y-4">
-                  <div className="flex gap-3">
-                     <Input
-                        className="flex-1"
-                        placeholder="Search term"
-                        onChange={(e) => setSearchAttempt(e.target.value)}
-                        value={searchAttempt}
-                     />
-                     <Button
-                        className="shrink-0"
-                        onClick={() => {
-                           setSearch(searchAttempt);
-                        }}
-                     >
-                        Search
-                     </Button>
-                     <Select
-                        value={order}
-                        onValueChange={(value: "desc" | "asc") => {
-                           setOrder(value);
-                        }}
-                     >
-                        <SelectTrigger className="shrink-0">
-                           <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                           <SelectItem value="desc">Desc</SelectItem>
-                           <SelectItem value="asc">Asc</SelectItem>
-                        </SelectContent>
-                     </Select>
-                     ADD
-                  </div>
+                  <AddNewComment refetch={commentsQuery.refetch} />
                   {commentsQuery.isRefetching ? (
                      <div className="h-[500px] flex items-center justify-center">
                         <Loader2 className="size-8 animate-spin" />
@@ -273,6 +240,6 @@ export default function CommentsContainer() {
          ) : (
             false
          )}
-      </>
+      </div>
    );
 }

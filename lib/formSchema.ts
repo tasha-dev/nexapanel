@@ -212,3 +212,19 @@ export const quoteFormSchema = z.object({
       .min(3, "Author must be at least 3 characters.")
       .max(100, "Author must not exceed 100 characters."),
 });
+
+export const commentFormSchema = z.object({
+   postId: numberField("Post Id", {
+      int: true,
+      min: 0,
+   }),
+   userId: numberField("User Id", {
+      int: true,
+      min: 0,
+   }),
+   body: z
+      .string()
+      .trim()
+      .min(3, "Content must be at least 3 characters.")
+      .max(512, "Content must not exceed 512 characters."),
+});
