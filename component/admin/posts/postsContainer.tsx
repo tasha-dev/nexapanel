@@ -59,6 +59,7 @@ import { cn } from "@/lib/util";
 import { Badge } from "@/component/ui/badge";
 import AddNewPost from "./dialog/addNewPost";
 import EditPost from "./dialog/editPost";
+import DeletePost from "./dialog/deletePost";
 
 // Defining context
 export const tagsContext = createContext<string[]>([]);
@@ -105,7 +106,16 @@ export default function PostsContainer() {
    // Returning JSX
    return (
       <>
-         {postDeleteID && " DELTE "}
+         {postDeleteID && (
+            <DeletePost
+               id={postDeleteID}
+               refetch={postsQuery.refetch}
+               open
+               onOpenChange={(open) => {
+                  if (!open) setPostDeleteID(undefined);
+               }}
+            />
+         )}
          {isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
