@@ -141,7 +141,7 @@ export default function CartsContainer() {
                                  key={index}
                                  className={cn(
                                     userInfo && userInfo !== "401"
-                                       ? userInfo.id === item.id
+                                       ? userInfo.id === item.userId
                                           ? "text-indigo-500 bg-current/5 border-current/30 hover:bg-current/20"
                                           : ""
                                        : "",
