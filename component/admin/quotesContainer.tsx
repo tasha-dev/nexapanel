@@ -6,13 +6,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { GETQuoteType } from "@/type/api";
 import { useQuery } from "@tanstack/react-query";
-import {
-   Delete,
-   Quote as LucidQuote,
-   Ellipsis,
-   Loader2,
-   Pen,
-} from "lucide-react";
+import { Quote as LucidQuote, Loader2 } from "lucide-react";
 import {
    Alert,
    AlertAction,
@@ -36,12 +30,6 @@ import {
    TableHeader,
    TableRow,
 } from "@/component/ui/table";
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuTrigger,
-} from "@/component/ui/dropdown-menu";
 
 // Creating and exporting QuotesContainer component as default
 export default function QuotesContainer() {
