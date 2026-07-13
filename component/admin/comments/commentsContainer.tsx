@@ -43,20 +43,13 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from "@/component/ui/dropdown-menu";
-import { Input } from "@/component/ui/input";
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/component/ui/select";
 import { Comment } from "@/type/general";
 import { cn } from "@/lib/util";
 import { Badge } from "@/component/ui/badge";
 import { MeContext } from "@/component/layout/authProvider";
 import AddNewComment from "./dialog/addNewComment";
 import EditComment from "./dialog/editComment";
+import DeleteComment from "./dialog/deleteComment";
 
 // Creating and exporting CommentsContainer component as default
 export default function CommentsContainer() {
@@ -81,17 +74,6 @@ export default function CommentsContainer() {
       },
    });
 
-   // {recipeDeleteID && (
-   //             <DeleteRecipe
-   //                id={recipeDeleteID}
-   //                refetch={recipesQuery.refetch}
-   //                open
-   //                onOpenChange={(open) => {
-   //                   if (!open) setRecipeDeleteID(undefined);
-   //                }}
-   //             />
-   //          )}
-
    // Returning JSX
    return (
       <div className="relative">
@@ -104,6 +86,16 @@ export default function CommentsContainer() {
                   if (!open) {
                      setCommentInfoEdit(undefined);
                   }
+               }}
+            />
+         )}
+         {commentDeleteID && (
+            <DeleteComment
+               id={commentDeleteID}
+               refetch={commentsQuery.refetch}
+               open
+               onOpenChange={(open) => {
+                  if (!open) setCommentDeleteID(undefined);
                }}
             />
          )}
