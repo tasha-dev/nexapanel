@@ -133,3 +133,7 @@ export interface EditPostDialogProps extends DialogProps {
 export interface EditTodoDialogProps extends DialogProps {
    data: Todo;
 }
+
+export interface EditCommentDialogProps extends DialogProps {
+   data: Comment;
+}

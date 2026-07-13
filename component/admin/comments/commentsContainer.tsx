@@ -56,6 +56,7 @@ import { cn } from "@/lib/util";
 import { Badge } from "@/component/ui/badge";
 import { MeContext } from "@/component/layout/authProvider";
 import AddNewComment from "./dialog/addNewComment";
+import EditComment from "./dialog/editComment";
 
 // Creating and exporting CommentsContainer component as default
 export default function CommentsContainer() {
@@ -90,22 +91,22 @@ export default function CommentsContainer() {
    //                }}
    //             />
    //          )}
-   //          {recipesInfoEdit && (
-   //             <EditRecipe
-   //                data={recipesInfoEdit}
-   //                open
-   //                refetch={recipesQuery.refetch}
-   //                onOpenChange={(open) => {
-   //                   if (!open) {
-   //                      setRecipesInfoEdit(undefined);
-   //                   }
-   //                }}
-   //             />
-   //          )}
 
    // Returning JSX
    return (
       <div className="relative">
+         {commentInfoEdit && (
+            <EditComment
+               data={commentInfoEdit}
+               open
+               refetch={commentsQuery.refetch}
+               onOpenChange={(open) => {
+                  if (!open) {
+                     setCommentInfoEdit(undefined);
+                  }
+               }}
+            />
+         )}
          {commentsQuery.isLoading ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
