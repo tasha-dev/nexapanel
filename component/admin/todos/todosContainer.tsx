@@ -47,6 +47,7 @@ import {
 } from "@/component/ui/dropdown-menu";
 import { MeContext } from "@/component/layout/authProvider";
 import { Todo } from "@/type/general";
+import AddNewTodo from "./dialog/addNewTodo";
 
 // Creating and exporting TodosContainer component as default
 export default function TodosContainer() {
@@ -94,7 +95,7 @@ export default function TodosContainer() {
 
    // Returning JSX
    return (
-      <>
+      <div className="relative">
          {todosQuery.isPending ? (
             <div className="h-[500px] flex items-center justify-center">
                <Loader2 className="size-8 animate-spin" />
@@ -126,6 +127,7 @@ export default function TodosContainer() {
                </Empty>
             ) : (
                <div className="space-y-4">
+                  <AddNewTodo refetch={todosQuery.refetch} />
                   {todosQuery.isRefetching ? (
                      <div className="h-[500px] flex items-center justify-center">
                         <Loader2 className="size-8 animate-spin" />
@@ -213,6 +215,6 @@ export default function TodosContainer() {
          ) : (
             false
          )}
-      </>
+      </div>
    );
 }

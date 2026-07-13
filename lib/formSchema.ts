@@ -190,3 +190,12 @@ export const postFormSchema = z.object({
       .max(512, "Body name must not exceed 100 characters."),
    tags: z.array(z.string()).min(1, "Please select at least one tag."),
 });
+
+export const todoFormSchema = z.object({
+   todo: z
+      .string()
+      .trim()
+      .min(3, "Title must be at least 3 characters.")
+      .max(100, "Title must not exceed 100 characters."),
+   completed: z.boolean(),
+});
