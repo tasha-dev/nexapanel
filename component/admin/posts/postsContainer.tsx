@@ -57,6 +57,7 @@ import { Post } from "@/type/general";
 import { MeContext } from "@/component/layout/authProvider";
 import { cn } from "@/lib/util";
 import { Badge } from "@/component/ui/badge";
+import AddNewPost from "./dialog/addNewPost";
 
 // Defining context
 export const tagsContext = createContext<string[]>([]);
@@ -173,7 +174,7 @@ export default function PostsContainer() {
                               <SelectItem value="asc">Asc</SelectItem>
                            </SelectContent>
                         </Select>
-                        ADD
+                        <AddNewPost refetch={postsQuery.refetch} />
                      </div>
                      {postsQuery.isRefetching ? (
                         <div className="h-[500px] flex items-center justify-center">

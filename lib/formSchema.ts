@@ -176,3 +176,17 @@ export const recipeFormSchema = z.object({
    }),
    image: z.string().trim().url("Please enter a valid image URL."),
 });
+
+export const postFormSchema = z.object({
+   title: z
+      .string()
+      .trim()
+      .min(3, "Title must be at least 3 characters.")
+      .max(100, "Title must not exceed 100 characters."),
+   body: z
+      .string()
+      .trim()
+      .min(20, "Body must be at least 3 characters.")
+      .max(512, "Body name must not exceed 100 characters."),
+   tags: z.array(z.string()).min(1, "Please select at least one tag."),
+});
