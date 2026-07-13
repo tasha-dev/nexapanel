@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
+import cartStore from "@/store/cart";
 
 // Defining data of nav bar to render init
 const data: {
@@ -71,6 +73,7 @@ const data: {
 export default function Navbar() {
    // Defining hooks
    const navbarState = useContext(navbarContext);
+   const cartState = cartStore();
 
    // Returning JSX
    return (
@@ -109,7 +112,19 @@ export default function Navbar() {
                      Head home
                   </Link>
                </Button>
-               <Button variant={"destructive"} className="w-full justify-start">
+               <Button
+                  variant={"destructive"}
+                  className="w-full justify-start"
+                  onClick={() => {
+                     toast.success("Logged out successfully");
+
+                     localStorage.removeItem("accessToken");
+                     localStorage.removeItem("refreshToken");
+                     cartState.clearCart();
+
+                     window.location.href = "/";
+                  }}
+               >
                   <LogOut />
                   Log out
                </Button>
