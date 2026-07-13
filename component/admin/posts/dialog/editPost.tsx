@@ -60,7 +60,7 @@ export default function EditPost({
 
    const mutation = useMutation({
       mutationFn: async ({ newData }: { newData: formType }) => {
-         const response = await axiosInstance.post(`/posts/${data.id}`, {
+         const response = await axiosInstance.put(`/posts/${data.id}`, {
             ...newData,
             userId: userInfo ? (userInfo === "401" ? 0 : userInfo.id) : 0,
          });
